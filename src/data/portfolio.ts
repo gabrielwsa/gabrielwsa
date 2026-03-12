@@ -9,7 +9,7 @@ export const profile = {
   email: "gabrielsilvadearaujo45@gmail.com",
   linkedin: "https://linkedin.com/in/gabriel-william-039b97306",
   github: "https://github.com/gabrielwsa",
-  cvRoute: "/cv?print=1",
+  cvRoute: "/cv?print=0",
   certificationCount: 6,
 } as const
 
