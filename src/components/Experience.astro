@@ -1,31 +1,14 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro"
-const EXPERIENCE = [
-  {
-    date: "09/2024 - Actualmente...",
-    title: "Desarrollador Full Stack",
-    company: "EPEM",
-    description:
-      "Ultilizando PHP con JavaScript para realizar o mantenimento y mejora de un sistema web de la empresa EPEM, y implementando nuevos modulos en el sistema."
-    },
-    {
-    date: "04/2022 - Actualmente...",
-    title: "Desarrollador DevOps",
-    company: "EPEM",
-    description:
-      "Realicé el despliegue de las funcionalidades desarrolladas en el sistema web de la empresa EPEM, accediendo al sistema mediante SSH y utilizando comandos de terminal. Además, ejecuté comandos directamente en producción para resolver incidencias y garantizar el correcto funcionamiento del sistema."
-    }
-    ,
-]
+import { experience } from "@/data/portfolio"
 ---
 
-<ol class="relative mt-16 space-y-12">
+<ol class="relative space-y-6 before:absolute before:left-[0.6875rem] before:top-8 before:h-[calc(100%-4rem)] before:w-px before:bg-[var(--accent-border)]">
   {
-    EXPERIENCE.map((experience) => (
-      <li class="group relative">
-        <div class="absolute left-0 top-0 h-full w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-        <div class="absolute left-0 top-0 h-3 w-3 rounded-full bg-blue-500 dark:bg-blue-400 -translate-x-1.5"></div>
-        <ExperienceItem {...experience} />
+    experience.map((item) => (
+      <li class="relative pl-8 sm:pl-12">
+        <div class="absolute left-0 top-8 h-4 w-4 rounded-full border-[5px] border-[var(--page-bg)] bg-[var(--accent-strong)]"></div>
+        <ExperienceItem {...item} />
       </li>
     ))
   }

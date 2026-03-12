@@ -3,13 +3,11 @@ import Layout from "@/layouts/Layout.astro"
 
 import Briefcase from "@/components/icons/Briefcase.astro"
 import Device from "@/components/icons/Device.astro"
-import CodeIcon from "@/components/icons/Code.astro"
 import Experience from "@/components/Experience.astro"
 import Projects from "@/components/Projects.astro"
 import SectionContainer from "@/components/SectionContainer.astro"
 import Hero from "@/components/Hero.astro"
 import TitleSection from "@/components/TitleSection.astro"
-import Technologies from "@/components/Technologies.astro"
 import ProfileCheck from "@/components/icons/ProfileCheck.astro"
 import AboutMe from "@/components/AboutMe.astro"
 import Certifications from "@/components/Certifications.astro"
@@ -17,57 +15,60 @@ import Certificated from "@/components/icons/Certificated.astro"
 ---
 
 <Layout
-  title="Porfolio de Gabriel W. Silva - Cursando Análisis de Sistemas Informáticos y Desarrollador Full Stack"
+  title="Portafolio de Gabriel W. Silva - Desarrollador Full Stack"
   description="Gabriel W. Silva - Cursando Análisis de Sistemas Informáticos y Desarrollador Full Stack">
-  <main class="px-4 max-w-7xl mx-auto">
-    <SectionContainer class="py-24 md:py-36 relative" id="inicio">
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-gray-900/50 dark:to-gray-800/50 -z-10"></div>
-      <Hero>
-      </slot>
-    </Hero>
+  <main class="mx-auto flex max-w-7xl flex-col gap-10 pt-24 sm:pt-28">
+    <SectionContainer class="pb-4 pt-6 sm:pb-8 sm:pt-10" id="inicio">
+      <Hero />
     </SectionContainer>
-    <div class="space-y-32">
-      <SectionContainer id="experiencia" class="relative">
-        <div class="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white/50 dark:from-gray-900/50 dark:to-gray-800/50 -z-10 rounded-3xl"></div>
-        <TitleSection class="mb-12">
-          <Briefcase class="size-8" />
-          Experiencia laboral
-        </TitleSection>
-        <Experience />
-      </SectionContainer>
-      
-      <SectionContainer id="proyectos" class="relative">
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-gray-900/50 dark:to-gray-800/50 -z-10 rounded-3xl"></div>
-        <TitleSection class="mb-12">
-          <Device class="size-7" />
-          Proyectos
-        </TitleSection>
-        <Projects />
+
+    <div class="space-y-8 pb-10 sm:space-y-10">
+      <SectionContainer id="experiencia" class="section-shell panel-surface relative overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(20,184,166,0.12),transparent_35%)]"></div>
+        <div class="relative">
+          <span class="section-kicker mb-5">Trayectoria</span>
+          <TitleSection class="mb-10">
+            <Briefcase class="size-8" />
+            Experiencia laboral
+          </TitleSection>
+          <Experience />
+        </div>
       </SectionContainer>
 
-      <!-- <SectionContainer id="tecnologias">
-        <TitleSection>
-          <CodeIcon class="size-7" />
-          Conocimientos
-        </TitleSection>
-        <Technologies />
-      </SectionContainer> -->
-
-      <SectionContainer id="Certificados" class="relative">
-        <div class="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white/50 dark:from-gray-900/50 dark:to-gray-800/50 -z-10 rounded-3xl"></div>
-        <TitleSection class="mb-12">
-          <Certificated class="size-7" />
-          Certificados
-        </TitleSection>
-        <Certifications />
+      <SectionContainer id="proyectos" class="section-shell panel-surface relative overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.12),transparent_32%)]"></div>
+        <div class="relative">
+          <span class="section-kicker mb-5">Selección</span>
+          <TitleSection class="mb-10">
+            <Device class="size-7" />
+            Proyectos
+          </TitleSection>
+          <Projects />
+        </div>
       </SectionContainer>
 
-      <SectionContainer id="sobre-mi">
-        <TitleSection>
-          <ProfileCheck class="size-7" />
-          Sobre mí
-        </TitleSection>
-        <AboutMe />
+      <SectionContainer id="certificados" class="section-shell panel-surface relative overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(20,184,166,0.1),transparent_36%)]"></div>
+        <div class="relative">
+          <span class="section-kicker mb-5">Formación</span>
+          <TitleSection class="mb-10">
+            <Certificated class="size-7" />
+            Certificados
+          </TitleSection>
+          <Certifications />
+        </div>
+      </SectionContainer>
+
+      <SectionContainer id="sobre-mi" class="section-shell panel-surface relative overflow-hidden">
+        <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.08),transparent_32%)]"></div>
+        <div class="relative">
+          <span class="section-kicker mb-5">Perfil</span>
+          <TitleSection class="mb-10">
+            <ProfileCheck class="size-7" />
+            Sobre mí
+          </TitleSection>
+          <AboutMe />
+        </div>
       </SectionContainer>
     </div>
   </main>

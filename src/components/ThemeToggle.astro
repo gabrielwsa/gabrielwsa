@@ -10,29 +10,25 @@ const THEMES = ["Light", "Dark", "System"]
   <button
     transition:persist
     id="theme-toggle-btn"
-    class="appearance-none border-none flex hover:scale-125 transition"
+    class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/70 text-[var(--text-primary)] transition-all duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10 dark:bg-slate-900/70"
+    aria-haspopup="true"
+    aria-expanded="false"
   >
     <span class="sr-only">Elige el tema</span>
     <SunIcon id="light" class="theme-toggle-icon size-5 transition-all" />
-    <MoonIcon
-      id="dark"
-      class="theme-toggle-icon absolute size-5 transition-all"
-    />
-    <SystemIcon
-      id="system"
-      class="theme-toggle-icon absolute size-5 transition-all"
-    />
+    <MoonIcon id="dark" class="theme-toggle-icon absolute size-5 transition-all" />
+    <SystemIcon id="system" class="theme-toggle-icon absolute size-5 transition-all" />
   </button>
-  <div
-    transition:persist
-    id="themes-menu"
-    class="absolute hidden scale-80 top-8 right-0 text-sm p-1 min-w-[8rem] rounded-md border border-gray-100 bg-white/90 dark:bg-gray-900/90 dark:border-gray-500/20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] backdrop-blur-md"
-  >
-    <ul>
+  <div transition:persist id="themes-menu" class="panel-surface absolute right-0 top-14 hidden min-w-[11rem] rounded-2xl p-2 text-sm">
+    <ul class="flex flex-col gap-1">
       {
         THEMES.map((theme) => (
-          <li class="themes-menu-option px-2 py-1.5 cursor-default hover:bg-neutral-400/40 dark:hover:bg-gray-500/50 rounded-sm">
-            {theme}
+          <li
+            class="themes-menu-option flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-[var(--text-secondary)] transition-colors duration-300 hover:text-[var(--text-primary)]"
+            data-theme={theme.toLowerCase()}
+          >
+            <span>{theme}</span>
+            <span class="h-2.5 w-2.5 rounded-full bg-current opacity-0 transition-opacity duration-300"></span>
           </li>
         ))
       }
@@ -42,8 +38,17 @@ const THEMES = ["Light", "Dark", "System"]
 
 <style>
   #themes-menu.open {
-    display: inline;
+    display: inline-block;
     animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  .themes-menu-option[data-active="true"] {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+
+  .themes-menu-option[data-active="true"] span:last-child {
+    opacity: 1;
   }
 
   @keyframes scale-up-center {
@@ -60,63 +65,86 @@ const THEMES = ["Light", "Dark", "System"]
 </style>
 
 <script is:inline>
-  let remove = null
   const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
-  const themesMenu = document.getElementById("themes-menu")
 
   const getThemePreference = () => {
     if (typeof localStorage !== "undefined") {
       return localStorage.getItem("theme") ?? "system"
     }
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light"
+    return "system"
   }
 
-  const updateIcon = (themePreference) => {
-    document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
-      element.style.scale = element.id === themePreference ? "1" : "0"
-    })
-  }
-
-  const updateTheme = () => {
-    if (remove != null) {
-      remove()
-    }
-    matchMedia.addEventListener("change", updateTheme)
-    remove = () => {
-      matchMedia.removeEventListener("change", updateTheme)
-    }
-
+  const applyTheme = () => {
     const themePreference = getThemePreference()
     const isDark =
       themePreference === "dark" ||
       (themePreference === "system" && matchMedia.matches)
 
-    updateIcon(themePreference)
-    document.documentElement.classList[isDark ? "add" : "remove"]("dark")
+    document.documentElement.classList.toggle("dark", isDark)
+
+    document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
+      element.style.scale = element.id === themePreference ? "1" : "0"
+      element.style.opacity = element.id === themePreference ? "1" : "0"
+    })
+
+    document.querySelectorAll(".themes-menu-option").forEach((element) => {
+      element.dataset.active = element.dataset.theme === themePreference ? "true" : "false"
+    })
   }
 
-  updateTheme()
+  const setupThemeToggle = () => {
+    if (window.__gabrielThemeCleanup) {
+      window.__gabrielThemeCleanup()
+    }
 
-  document.addEventListener("click", () => themesMenu.classList.remove("open"))
+    const themesMenu = document.getElementById("themes-menu")
+    const themeToggleBtn = document.getElementById("theme-toggle-btn")
+    const themeOptions = [...document.querySelectorAll(".themes-menu-option")]
 
-  document.getElementById("theme-toggle-btn").addEventListener("click", (e) => {
-    e.stopPropagation()
-    const isClosed = !themesMenu.classList.contains("open")
-    themesMenu.classList[isClosed ? "add" : "remove"]("open")
-  })
+    if (!themesMenu || !themeToggleBtn || themeOptions.length === 0) {
+      return
+    }
 
-  document.querySelectorAll(".themes-menu-option").forEach((element) => {
-    element.addEventListener("click", (e) => {
-      localStorage.setItem("theme", e.target.innerText.toLowerCase().trim())
-      updateTheme()
-    })
-  })
+    const closeMenu = () => {
+      themesMenu.classList.remove("open")
+      themeToggleBtn.setAttribute("aria-expanded", "false")
+    }
 
-  document.addEventListener('astro:after-swap', () => {
-    updateTheme();
-    window.scrollTo({ left: 0, top: 0, behavior: 'instant' });
-  })
+    const onDocumentClick = (event) => {
+      if (!themesMenu.contains(event.target) && !themeToggleBtn.contains(event.target)) {
+        closeMenu()
+      }
+    }
+
+    const onToggleClick = (event) => {
+      event.stopPropagation()
+      const willOpen = !themesMenu.classList.contains("open")
+      themesMenu.classList.toggle("open", willOpen)
+      themeToggleBtn.setAttribute("aria-expanded", String(willOpen))
+    }
+
+    const onThemeChange = (event) => {
+      localStorage.setItem("theme", event.currentTarget.dataset.theme)
+      applyTheme()
+      closeMenu()
+    }
+
+    themeToggleBtn.addEventListener("click", onToggleClick)
+    document.addEventListener("click", onDocumentClick)
+    matchMedia.addEventListener("change", applyTheme)
+    themeOptions.forEach((option) => option.addEventListener("click", onThemeChange))
+
+    applyTheme()
+
+    window.__gabrielThemeCleanup = () => {
+      themeToggleBtn.removeEventListener("click", onToggleClick)
+      document.removeEventListener("click", onDocumentClick)
+      matchMedia.removeEventListener("change", applyTheme)
+      themeOptions.forEach((option) => option.removeEventListener("click", onThemeChange))
+    }
+  }
+
+  setupThemeToggle()
+  document.addEventListener("astro:page-load", setupThemeToggle)
 </script>

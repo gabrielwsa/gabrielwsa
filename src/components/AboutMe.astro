@@ -1,29 +1,32 @@
 ---
-const personalImageAlt = "Gabriel William"
+import { strengths } from "@/data/portfolio"
 ---
 
-<article class="flex flex-col text-gray-700 dark:text-gray-300 md:flex-row">
-  <div
-    class="[&>p]:mb-6 [&>p>strong]:text-blue-500 dark:[&>p>strong]:text-blue-400 [&>p>strong]:font-semibold text-pretty w-full"
-  >
-    <p class="text-lg leading-relaxed">
-      Me llamo Gabriel W. Silva de Araujo. <strong>Cursando Análisis de Sistemas Informáticos y Desarrollador Full Stack</strong>.
-    </p>
+<div class="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+  <article class="panel-surface rounded-[2rem] p-6 sm:p-8">
+    <div class="[&>p]:mb-6 [&>p>strong]:font-semibold [&>p>strong]:text-[var(--accent-strong)]">
+      <p class="text-lg leading-8 text-[var(--text-secondary)]">
+        Me llamo Gabriel W. Silva de Araujo y actualmente estoy <strong>cursando Análisis de Sistemas Informáticos mientras desarrollo mi perfil full stack</strong> con experiencia real en sistemas empresariales.
+      </p>
 
-    <p class="text-lg leading-relaxed">
-      Soy un profesional <strong>persistente, determinado y proactivo</strong>, con un enfoque orientado al <strong>aprendizaje continuo</strong> y la <strong>mejora constante</strong>. Mi actitud esforzada me impulsa a enfrentar desafíos con dedicación, buscando siempre superar expectativas.
-    </p>
+      <p class="text-lg leading-8 text-[var(--text-secondary)]">
+        Me defino por una forma de trabajo <strong>persistente, proactiva y orientada al aprendizaje continuo</strong>. Busco entender bien los problemas, priorizar lo importante y entregar soluciones claras, mantenibles y útiles.
+      </p>
 
-    <p class="text-lg leading-relaxed">
-      Como persona <strong>responsable y detallista</strong>, priorizo la calidad en cada tarea, asegurando que los proyectos se ejecuten con <strong>precisión y eficiencia</strong>. Me apasiona adquirir nuevos conocimientos y dominar <strong>tecnologías emergentes</strong>.
-    </p>
+      <p class="text-lg leading-8 text-[var(--text-secondary)]">
+        Valoro la <strong>colaboración, la responsabilidad y la mejora constante</strong>. Mi objetivo es seguir creciendo dentro del área IT, aportando criterio técnico y una ejecución confiable en cada proyecto.
+      </p>
+    </div>
+  </article>
 
-    <p class="text-lg leading-relaxed">
-      Valoro el <strong>trabajo en equipo</strong> y creo firmemente en la <strong>colaboración</strong> como motor para alcanzar metas comunes. Mi compromiso es aportar valor a través de <strong>soluciones innovadoras</strong>, manteniendo siempre un enfoque <strong>estructurado y orientado a resultados</strong>.
-    </p>
-
-    <p class="text-lg leading-relaxed">
-      Cuento con capacidad para <strong>trabajar en equipo, empatía, adaptabilidad y resolución de problemas</strong>. Actualmente me encuentro interesado en continuar desarrollando mi carrera dentro del área IT. ¡Soy de esos que no se detienen hasta lograr lo propuesto!
-    </p>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+    {
+      strengths.map((strength) => (
+        <article class="panel-surface rounded-[1.5rem] p-5">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-strong)]">Fortaleza</p>
+          <p class="mt-3 text-base leading-7 text-[var(--text-secondary)]">{strength}</p>
+        </article>
+      ))
+    }
   </div>
-</article>
+</div>

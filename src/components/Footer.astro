@@ -1,28 +1,47 @@
 ---
 const currentYear = new Date().getFullYear()
+import { profile } from "@/data/portfolio"
 ---
 
-<footer
-  class="opacity-80 m-4 min-[375px]:pl-4 md:pl-0 mt-16 w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-10 flex justify-center border-t border-gray-300 dark:border-gray-700"
->
-  <div
-    class="rounded-lg w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between py-4"
-  >
-    <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
-      >© {currentYear}
-      <a href="" class="hover:underline">Gabriel W. Silva de Araujo</a>.
-    </span>
-    <ul
-      class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
-    >
-      <li>
-        <a href="/#sobre-mi" class="hover:underline me-4 md:me-6">Sobre mí</a>
-      </li>
-      <li>
-        <a id="contacto" href="" class="hover:underline"
-          >Contacto</a
-        >
-      </li>
-    </ul>
+<footer class="px-4 pb-10 pt-8 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-6xl">
+    <div class="panel-surface rounded-[2rem] px-6 py-6 sm:px-8 sm:py-8">
+      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={profile.cvRoute}
+            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
+          >
+            CV en PDF
+          </a>
+          <a
+            href="/#proyectos"
+            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
+          >
+            Ver proyectos
+          </a>
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
+          >
+            GitHub
+          </a>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-8 border-t border-white/50 pt-4 text-sm text-[var(--text-muted)] dark:border-white/10">
+        © {currentYear} Gabriel W. Silva de Araujo. Portafolio personal.
+      </div>
+    </div>
   </div>
 </footer>

@@ -1,133 +1,85 @@
 ---
-import GitHub from "./icons/GitHub.astro"
-import NextJS from "./icons/NextJS.astro"
-import Tailwind from "./icons/Tailwind.astro"
-import Link from "./icons/Link.astro"
-import LinkButton from "./LinkButton.astro"
-import Laravel from "./icons/Laravel.astro"
-import PostgreSQL from "./icons/PostgreSQL.astro"
-import React from "./icons/React.astro"
-import NodeJS from "./icons/NodeJS.astro"
-import Express from "./icons/Express.astro"
-import MongoDB from "./icons/MongoDB.astro"
-import Arduino from "./icons/Arduino.astro"
-import Python from "./icons/Python.astro"
+import GitHub from "./icons/GitHub.astro";
+import Link from "./icons/Link.astro";
+import LinkButton from "./LinkButton.astro";
+import React from "./icons/React.astro";
+import { projects } from "@/data/portfolio";
 
 const TAGS = {
-  LARAVEL: {
-    name: "Laravel",
-    class: "bg-red-950 text-white",
-    icon: Laravel,
-  },
-  POSTGRESQL: {
-    name: "PostgreSQL",
-    class: "bg-blue-800 text-white",
-    icon: PostgreSQL,
-  },
   REACT: {
     name: "React",
-    class: "bg-blue-600 text-white",
     icon: React,
   },
-  NODEJS: {
-    name: "Node.js",
-    class: "bg-green-900 text-white",
-    icon: NodeJS,
-  },
-  EXPRESS: {
-    name: "Express",
-    class: "bg-black text-white",
-    icon: Express,
-  },
-  MONGODB: {
-    name: "MongoDB",
-    class: "bg-green-800 text-white",
-    icon: MongoDB,
-  },
-  ARDUINO: {
-    name: "Arduino",
-    class: "bg-blue-950 text-white",
-    icon: Arduino,
-  },
-  PYTHON: {
-    name: "Python",
-    class: "bg-yellow-600 text-black",
-    icon: Python,
-  },
-}
-const PROJECTS = [
-  {
-    title: "API de Pokemons",
-    description:
-      "Integracion de API de Pokemons, con el fin de obtener datos de los Pokemons y mostrarlos en una pagina web.",
-    link: "https://pokemon-api-with-react.vercel.app/",
-    github: "https://github.com/gabrielwsa/PokemonAPI-with-React",
-    image: "/projects/ProyectoPokemon.png",
-    tags: [TAGS.REACT],
-  },
-  {
-    title: "API giphy",
-    description:
-      "Integracion de API de Giphy, con el fin de obtener datos de los gifs y mostrarlos en una pagina web.",
-    link: "https://gif-api-react.vercel.app/",
-    github: "https://github.com/gabrielwsa/gif-api-React",
-    image: "/projects/GifExpertApp.png",
-    tags: [TAGS.REACT],
-  }
-]
+};
+
+const tagMap = {
+  React: TAGS.REACT,
+};
 ---
 
-<div class="grid gap-16">
+<div class="grid gap-6">
   {
-    PROJECTS.map(({ image, title, description, tags, link, github }) => (
-    <article class="group relative flex flex-col space-y-8 md:flex-row md:space-x-8 md:space-y-0 p-6 rounded-2xl transition-all duration-300 hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-      <div class="w-full md:w-1/2">
-        <div class="relative overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-[1.02]">
-          <img 
-            alt="Proyecto" 
-            class="object-cover w-full h-56 md:h-64 transition-transform duration-500" 
-            loading="lazy" 
-            src={image} 
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </div>
-      </div>
+    projects.map(
+      ({ image, title, eyebrow, description, tags, link, github }, index) => (
+        <article class="panel-surface group overflow-hidden rounded-[2rem]">
+          <div class="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+            <div class="p-3 sm:p-4">
+              <div class="relative h-full min-h-[260px] overflow-hidden rounded-[1.5rem] border border-white/50 bg-slate-950 dark:border-white/10">
+                <img
+                  alt={`Vista previa de ${title}`}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                  src={image}
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
+              </div>
+            </div>
 
-      <div class="w-full md:w-1/2 md:max-w-lg">
-        <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors duration-300">
-          {title}
-        </h3>
-        <div class="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag) => (
-            <span
-              class={`flex items-center gap-x-2 rounded-full text-xs ${tag.class} py-1 px-3 transition-transform duration-300 hover:scale-105`}
-            >
-              <tag.icon class="size-4" />
-              {tag.name}
-            </span>
-          ))}
-        </div>
+            <div class="flex flex-col justify-between gap-6 p-6 sm:p-8">
+              <div>
+                <span class="section-kicker">{eyebrow}</span>
+                <h3 class="mt-4 text-2xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-3xl">
+                  {title}
+                </h3>
+                <p class="mt-4 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
+                  {description}
+                </p>
+              </div>
 
-        <p class="text-gray-700 dark:text-gray-400 mb-6">{description}</p>
-        <div class="flex gap-4">
-          {github && (
-            <LinkButton href={github} class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-lg hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-300">
-              <GitHub class="size-5" />
-              GitHub
-            </LinkButton>
-          )}
-          {link && (
-            <LinkButton href={link} class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors duration-300">
-              <Link class="size-4" />
-              Sitio web
-            </LinkButton>
-          )}
-        </div>
-      </div>
-    </article>
-    ))
+              <div class="flex flex-wrap gap-2">
+                {tags.map((tagName) => {
+                  const tag = tagMap[tagName];
+
+                  return (
+                    <span class="inline-flex items-center gap-x-2 rounded-full border border-[var(--accent-border)] bg-white/60 px-3 py-1.5 text-xs font-medium text-[var(--text-primary)] dark:bg-white/5">
+                      <tag.icon class="size-4 text-[var(--accent-strong)]" />
+                      {tag.name}
+                    </span>
+                  );
+                })}
+              </div>
+
+              <div class="flex flex-wrap gap-3">
+                {github && (
+                  <LinkButton href={github}>
+                    <GitHub class="size-5" />
+                    GitHub
+                  </LinkButton>
+                )}
+                {link && (
+                  <LinkButton
+                    href={link}
+                    class="border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent-strong)] hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:text-slate-950 dark:hover:text-slate-950"
+                  >
+                    <Link class="size-4" />
+                    Sitio web
+                  </LinkButton>
+                )}
+              </div>
+            </div>
+          </div>
+        </article>
+      ),
+    )
   }
 </div>
-
-
-

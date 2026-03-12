@@ -26,92 +26,126 @@ const { description, title } = Astro.props
     <ViewTransitions />
   </head>
 
-  <body class="relative text-black dark:text-white h-full w-full bg-slate-950">
+  <body class="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] antialiased">
+    <div aria-hidden="true" class="fixed inset-0 -z-30 overflow-hidden">
+      <div class="absolute left-[-8rem] top-[-8rem] h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl sm:h-96 sm:w-96"></div>
+      <div class="absolute right-[-6rem] top-1/4 h-64 w-64 rounded-full bg-[var(--accent-soft-2)] blur-3xl sm:h-80 sm:w-80"></div>
+      <div class="absolute bottom-[-10rem] left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[var(--accent-soft)] blur-3xl sm:h-[28rem] sm:w-[28rem]"></div>
+    </div>
     <Particles />
     <div
-      class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-100 dark:bg-gray-950
-      bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),rgba(255,255,255,0)_50%)]
-      dark:bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.1),rgba(0,0,0,0)_50%)]"
+      aria-hidden="true"
+      class="fixed inset-0 -z-20 min-h-screen w-full bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.65),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.18),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.3),transparent_36%)] dark:bg-[radial-gradient(circle_at_top,rgba(125,211,252,0.08),transparent_35%),linear-gradient(180deg,rgba(15,23,42,0.45),transparent_24%),linear-gradient(135deg,rgba(56,189,248,0.08),transparent_32%)]"
     >
-    <div class="absolute top-0 left-0 right-0 h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-    <div class="absolute top-0 left-0 right-0 h-full bg-[linear-gradient(to_bottom,rgba(255,255,255,0.1),rgba(255,255,255,0)_20%)] dark:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.1),rgba(0,0,0,0)_20%)]"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(15,23,42,0.04)_50%,transparent_100%)] dark:bg-[linear-gradient(to_right,transparent_0%,rgba(148,163,184,0.06)_50%,transparent_100%)]"></div>
+      <div class="absolute inset-0 opacity-40 dark:opacity-20 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.08)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
     </div>
     <Header />
-    <slot />
+    <div class="relative flex-1 pb-16">
+      <slot />
+    </div>
     <Footer />
     <style is:global>
       :root {
-        color-scheme: light dark;
+        color-scheme: light;
+        --page-bg: #f5efe6;
+        --surface: rgba(255, 255, 255, 0.7);
+        --surface-strong: rgba(255, 255, 255, 0.9);
+        --surface-border: rgba(148, 163, 184, 0.22);
+        --surface-shadow: 0 24px 80px -36px rgba(15, 23, 42, 0.28);
+        --text-primary: rgba(15, 23, 42, 0.95);
+        --text-secondary: rgba(51, 65, 85, 0.86);
+        --text-muted: rgba(71, 85, 105, 0.7);
+        --accent-strong: #0f766e;
+        --accent-soft: rgba(20, 184, 166, 0.18);
+        --accent-soft-2: rgba(249, 115, 22, 0.14);
+        --accent-border: rgba(15, 118, 110, 0.18);
+      }
+
+      html.dark {
+        color-scheme: dark;
+        --page-bg: #07111f;
+        --surface: rgba(8, 15, 30, 0.72);
+        --surface-strong: rgba(11, 19, 36, 0.88);
+        --surface-border: rgba(148, 163, 184, 0.14);
+        --surface-shadow: 0 24px 80px -36px rgba(2, 6, 23, 0.85);
+        --text-primary: rgba(241, 245, 249, 0.96);
+        --text-secondary: rgba(203, 213, 225, 0.85);
+        --text-muted: rgba(148, 163, 184, 0.74);
+        --accent-strong: #5eead4;
+        --accent-soft: rgba(45, 212, 191, 0.14);
+        --accent-soft-2: rgba(251, 146, 60, 0.12);
+        --accent-border: rgba(94, 234, 212, 0.14);
       }
 
       html {
         font-family: "Onest Variable", system-ui, sans-serif;
         scroll-behavior: smooth;
+        background: var(--page-bg);
       }
 
       body {
-        color: rgba(17, 17, 17, 0.9);
+        margin: 0;
         display: flex;
         flex-direction: column;
         min-height: 100vh;
         overscroll-behavior: none;
+        background: var(--page-bg);
+        color: var(--text-primary);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      ::selection {
+        background: var(--accent-soft);
+        color: var(--text-primary);
       }
 
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
         }
-      }
 
-      @media (prefers-color-scheme: dark) {
-        body {
-          color: rgba(255, 255, 255, 0.9);
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
         }
       }
 
-      #header-nav {
-        animation: blur linear both 0.5s;
-        animation-timeline: scroll();
-        animation-range: 0 500px;
+      .panel-surface {
+        background: var(--surface);
+        border: 1px solid var(--surface-border);
+        box-shadow: var(--surface-shadow);
+        backdrop-filter: blur(24px);
       }
 
-      @keyframes blur {
-        to {
-          backdrop-filter: blur(20px);
-          border-width: 1px;
-          border-color: rgba(0, 0, 0);
-          padding: 0.25rem 0.75rem;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          background-color: rgb(229, 229, 229);
-          border-radius: 9999px;
-        }
+      .section-shell {
+        border-radius: 2rem;
+        padding: 1.5rem;
       }
 
-      @media (prefers-color-scheme: dark) {
-        @keyframes blur {
-          from {
-            border: 0px;
-          }
-          to {
-            box-shadow:
-              0px 5px 50px -5px rgba(0, 0, 0, 0.1),
-              0px 0px 0 1px rgba(0, 0, 0, 0.3);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-width: 1px;
-            border-color: rgba(0, 0, 0);
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 9999px;
-          }
+      .section-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 9999px;
+        padding: 0.45rem 0.85rem;
+        border: 1px solid var(--accent-border);
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (min-width: 640px) {
+        .section-shell {
+          padding: 2rem;
         }
       }
     </style>

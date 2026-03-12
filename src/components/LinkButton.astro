@@ -1,12 +1,20 @@
 ---
-const { href } = Astro.props;
+const {
+  href,
+  class: className = "",
+  target = typeof href === "string" && href.startsWith("http") ? "_blank" : undefined,
+  rel = target === "_blank" ? "noopener noreferrer" : undefined,
+  ...rest
+} = Astro.props
 ---
 
 <a
-    target="_blank"
+    {...rest}
     href={href}
+    target={target}
+    rel={rel}
     role="link"
-    class="inline-flex bg-gray-100 text-gray-800 border-gray-300 items-center justify-center gap-2 px-3 py-2 space-x-2 text-base transition dark:text-white dark:bg-gray-800 border dark:border-gray-600 focus-visible:ring-yellow-500/80 text-md hover:bg-gray-800 hover:border-gray-900 group max-w-fit rounded-xl hover:text-white focus:outline-none focus-visible:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-offset-2 active:bg-black"
+    class={`inline-flex max-w-fit items-center justify-center gap-2 rounded-2xl border border-slate-300/70 bg-white/75 px-4 py-2.5 text-sm font-medium text-slate-900 shadow-[0_18px_32px_-24px_rgba(15,23,42,0.75)] transition-colors duration-300 hover:border-slate-900 hover:bg-slate-900 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent dark:border-white/10 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-100 dark:hover:text-slate-950 ${className}`}
 >
     <slot />
 </a>

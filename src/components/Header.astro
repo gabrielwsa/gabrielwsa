@@ -19,8 +19,8 @@ const navItems = [
   },
   {
     title: "Certificaciones",
-    label: "Certificados",
-    url: "/#Certificados",
+    label: "certificados",
+    url: "/#certificados",
   },
   {
     title: "Sobre mí",
@@ -35,134 +35,202 @@ const navItems = [
 ]
 ---
 
-<header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
->
-  <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-between items-center w-full md:w-1/2 transition-all duration-300 tracking-wider"
-  >
-    <button
-      id="mobile-menu-button"
-      class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-      aria-label="Toggle menu"
-    >
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+<header class="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-6xl">
+    <nav class="panel-surface flex items-center justify-between rounded-full px-3 py-2.5 text-sm font-medium text-[var(--text-secondary)]">
+      <a
+        href="/#inicio"
+        class="inline-flex items-center gap-3 rounded-full px-2 py-1 text-[var(--text-primary)] transition-colors duration-300"
+        aria-label="Ir al inicio"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"
-        />
-      </svg>
-    </button>
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold tracking-[0.2em] text-white dark:bg-white dark:text-slate-950">
+          GW
+        </span>
+        <span class="hidden sm:flex sm:flex-col sm:leading-tight">
+          <strong class="text-sm font-semibold text-[var(--text-primary)]">Gabriel W. Silva</strong>
+          <span class="text-xs text-[var(--text-muted)]">Full Stack Developer</span>
+        </span>
+      </a>
 
-    <div
-      id="nav-menu"
-      class="fixed top-0 right-0 h-screen w-64 bg-white dark:bg-gray-800 transform translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:h-auto md:w-auto md:bg-transparent md:dark:bg-transparent md:flex md:items-center"
-    >
-      {
-        navItems.map((link) => (
-          <a
-            class="relative block px-4 py-3 transition hover:text-blue-500 dark:hover:text-blue-500"
-            aria-label={link.label}
-            href={link.url}
-          >
-            {link.title}
-          </a>
-        ))
-      }
+      <div class="hidden items-center gap-1 md:flex">
+        {
+          navItems.map((link) => (
+            <a
+              class="nav-link rounded-full px-4 py-2 transition-colors duration-300 hover:text-[var(--accent-strong)]"
+              data-nav-label={link.label}
+              aria-label={link.label}
+              href={link.url}
+            >
+              {link.title}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="flex items-center gap-2">
+        <ThemeToggle />
+        <button
+          id="mobile-menu-button"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/70 text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10 dark:bg-slate-900/70 md:hidden"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div id="nav-backdrop" class="nav-backdrop md:hidden"></div>
+    <div id="nav-menu" class="panel-surface nav-menu md:hidden">
+      <div class="flex flex-col gap-1 p-3">
+        {
+          navItems.map((link) => (
+            <a
+              class="nav-link rounded-2xl px-4 py-3 text-base transition-colors duration-300 hover:text-[var(--accent-strong)]"
+              data-nav-label={link.label}
+              aria-label={link.label}
+              href={link.url}
+            >
+              {link.title}
+            </a>
+          ))
+        }
+      </div>
     </div>
-    <ThemeToggle />
-  </nav>
+  </div>
 </header>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section")
-    const navItems = document.querySelectorAll("header nav a")
+  type HeaderWindow = Window & typeof globalThis & {
+    __gabrielHeaderCleanup?: () => void
+  }
+
+  const headerWindow = window as HeaderWindow
+
+  const setupHeader = () => {
+    headerWindow.__gabrielHeaderCleanup?.()
+
+    const sections = [...document.querySelectorAll<HTMLElement>("main section[id]")]
+    const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".nav-link")]
     const mobileMenuButton = document.getElementById("mobile-menu-button")
     const navMenu = document.getElementById("nav-menu")
+    const navBackdrop = document.getElementById("nav-backdrop")
     const body = document.body
 
-    // Mobile menu toggle
-    mobileMenuButton?.addEventListener("click", () => {
-      const isOpen = !navMenu?.classList.contains("translate-x-full")
-      if (isOpen) {
-        navMenu?.classList.add("translate-x-full")
-        body.classList.remove("overflow-hidden")
-      } else {
-        navMenu?.classList.remove("translate-x-full")
-        body.classList.add("overflow-hidden")
-      }
-    })
+    if (!mobileMenuButton || !navMenu || !navBackdrop) {
+      return
+    }
 
-    // Close menu when clicking on a link
-    navItems.forEach(item => {
-      item.addEventListener("click", () => {
-        navMenu?.classList.add("translate-x-full")
-        body.classList.remove("overflow-hidden")
+    const setMenuOpen = (isOpen: boolean) => {
+      navMenu.classList.toggle("is-open", isOpen)
+      navBackdrop.classList.toggle("is-open", isOpen)
+      mobileMenuButton.setAttribute("aria-expanded", String(isOpen))
+      body.classList.toggle("overflow-hidden", isOpen)
+    }
+
+    const setActiveLink = (id: string) => {
+      navLinks.forEach((link) => {
+        link.dataset.active = link.getAttribute("data-nav-label") === id ? "true" : "false"
       })
+    }
+
+    const onButtonClick = () => {
+      setMenuOpen(!navMenu.classList.contains("is-open"))
+    }
+
+    const onBackdropClick = () => setMenuOpen(false)
+    const onResize = () => {
+      if (window.innerWidth >= 768) {
+        setMenuOpen(false)
+      }
+    }
+
+    mobileMenuButton.addEventListener("click", onButtonClick)
+    navBackdrop.addEventListener("click", onBackdropClick)
+    window.addEventListener("resize", onResize)
+    const linkCleanup = navLinks.map((link) => {
+      const onLinkClick = () => setMenuOpen(false)
+      link.addEventListener("click", onLinkClick)
+      return () => link.removeEventListener("click", onLinkClick)
     })
 
-    const callback = (entries: any[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-blue-500")
-            } else {
-              item.classList.remove("text-blue-500")
-            }
-          })
+    let observer: IntersectionObserver | undefined
+
+    if (sections.length > 0) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visibleSection = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+          if (visibleSection) {
+            setActiveLink(visibleSection.target.id)
+          }
+        },
+        {
+          rootMargin: "-20% 0px -55% 0px",
+          threshold: [0.2, 0.35, 0.6],
         }
-      })
+      )
+
+      const activeObserver = observer
+      sections.forEach((section) => activeObserver.observe(section))
+      setActiveLink(sections[0].id)
     }
 
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 1.0,
-    })
-
-    sections.forEach((section) => {
-      observer.observe(section)
-    })
-
-    // Cleanup function
-    document.onvisibilitychange = () => {
-      if (document.visibilityState === "hidden") {
-        observer.disconnect()
-      } else {
-        sections.forEach((section) => {
-          observer.observe(section)
-        })
-      }
+    headerWindow.__gabrielHeaderCleanup = () => {
+      mobileMenuButton.removeEventListener("click", onButtonClick)
+      navBackdrop.removeEventListener("click", onBackdropClick)
+      window.removeEventListener("resize", onResize)
+      linkCleanup.forEach((cleanup) => cleanup())
+      observer?.disconnect()
     }
-  })
+  }
+
+  setupHeader()
+  document.addEventListener("astro:page-load", setupHeader)
 </script>
 
 <style>
-  nav {
-    animation: nav-shadown 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
+  .nav-menu {
+    position: fixed;
+    inset-inline: 1rem;
+    top: 5.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-0.75rem);
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
   }
 
-  nav {
-    @apply dark:bg-gray-800/90 bg-white/50;
+  .nav-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
-  @keyframes nav-shadown {
-    0% {
-      @apply dark:bg-gray-800/0 bg-white/0;
-    }
-    to {
-      @apply shadow-lg ring-1 backdrop-blur ring-white/10;
-    }
+  .nav-backdrop {
+    position: fixed;
+    inset: 0;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(2, 6, 23, 0.4);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-link[data-active="true"] {
+    color: var(--accent-strong);
+    background: var(--accent-soft);
   }
 </style>

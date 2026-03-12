@@ -12,45 +12,40 @@ interface Props {
 const { title, company, description, link, date } = Astro.props
 ---
 
-<div class="relative pl-8">
-  <div class="absolute left-0 top-0 h-full w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-  <div class="absolute left-0 top-0 h-3 w-3 rounded-full bg-blue-500 dark:bg-blue-400 -translate-x-1.5"></div>
-  
-  <div class="relative">
-    <div class="sticky top-0">
-      <div class="flex flex-col gap-1">
-        <h3 class="text-xl font-bold text-blue-500 dark:text-blue-400 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300">{title}</h3>
-        <h4 class="text-lg font-semibold text-gray-800 dark:text-white">{company}</h4>
-        <time class="text-sm text-gray-600/80 dark:text-white/80">{date}</time>
-      </div>
+<article class="panel-surface rounded-[1.75rem] p-6 sm:p-7">
+  <div class="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+    <div class="max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-strong)]">{company}</p>
+      <h3 class="mt-2 text-2xl font-semibold tracking-tight text-[var(--text-primary)]">{title}</h3>
+      <p class="mt-4 text-base leading-8 text-[var(--text-secondary)]">{description}</p>
+      {
+        link && (
+          <div class="mt-5">
+            <LinkInline href={link}>
+              Saber más
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 icon icon-tabler icon-tabler-chevron-right"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 6l6 6l-6 6" />
+              </svg>
+            </LinkInline>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="rounded-[1.25rem] border border-[var(--accent-border)] bg-[var(--accent-soft)] px-4 py-3 text-sm font-medium text-[var(--accent-strong)] md:min-w-[12rem]">
+      <time>{date}</time>
     </div>
   </div>
-  
-  <div class="relative mt-4 text-gray-600 dark:text-gray-300">
-    <p class="leading-relaxed">{description}</p>
-    {
-      link && (
-        <div class="mt-4">
-          <LinkInline href={link} class="inline-flex items-center gap-1 text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300">
-            Saber más{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-5 icon icon-tabler icon-tabler-chevron-right"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 6l6 6l-6 6" />
-            </svg>
-          </LinkInline>
-        </div>
-      )
-    }
-  </div>
-</div>
+</article>

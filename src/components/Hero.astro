@@ -6,54 +6,121 @@ import MailIcon from "@/components/icons/Mail.astro"
 import SocialPill from "@/components/SocialPill.astro"
 import GitHubIcon from "@/components/icons/GitHub.astro"
 import CVdownload from "@/components/icons/CVdownload.astro"
+import { experience, focusAreas, profile, projects } from "@/data/portfolio"
+
+const stats = [
+  { value: String(experience.length), label: "roles activos en EPEM" },
+  { value: `${projects.length}+`, label: "proyectos públicos destacados" },
+  { value: `${profile.certificationCount}+`, label: "certificados técnicos" },
+]
 ---
 
-<div class="max-w-4xl mx-auto">
-  <div class="flex flex-col items-center gap-6 mb-8 md:flex-row md:items-start">
-    <div class="relative group">
-      <img
-        class="rounded-full size-24 md:size-32 ring-4 ring-blue-100 dark:ring-gray-700 transition-transform duration-300"
-        src="/gabriel.jpg"
-        alt={personalImageAlt}
-      />
-    </div>
-    <div class="flex flex-col items-center md:items-start">
+<div class="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
+  <div>
+    <div class="mb-6 flex flex-wrap items-center gap-3">
       <a
-        href="https://linkedin.com/in/gabriel-william-039b97306"
+        href={profile.linkedin}
         target="_blank"
-        rel="noopener"
-        class="flex items-center transition md:justify-center md:hover:scale-105"
+        rel="noopener noreferrer"
+        class="transition-colors duration-300"
       >
         <Badge>Disponible para trabajar</Badge>
       </a>
+      <span class="section-kicker">Full Stack + DevOps</span>
+    </div>
+
+    <h1 class="max-w-3xl text-4xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl">
+      {profile.tagline}
+    </h1>
+
+    <p class="mt-5 max-w-3xl text-lg leading-8 text-[var(--text-secondary)] sm:text-xl">
+      Soy <strong class="text-[var(--text-primary)]">{profile.name}</strong>, {profile.summary}
+    </p>
+
+    <p class="mt-4 max-w-2xl text-base leading-7 text-[var(--text-muted)] sm:text-lg">
+      Trabajo con una mentalidad orientada a resultados: interfaces más limpias, código útil y soluciones que realmente ayuden a operar mejor un producto web.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <SocialPill href={profile.cvRoute}>
+        <CVdownload class="size-4" />
+        CV en PDF
+      </SocialPill>
+      <a
+        href="/#proyectos"
+        class="inline-flex max-w-fit items-center justify-center gap-2 rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
+      >
+        Ver proyectos
+      </a>
+      <a
+        href="/#experiencia"
+        class="inline-flex max-w-fit items-center justify-center gap-2 rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
+      >
+        Mi experiencia
+      </a>
+    </div>
+
+    <div class="mt-10 grid gap-3 sm:grid-cols-3">
+      {
+        stats.map((stat) => (
+          <div class="panel-surface rounded-[1.5rem] p-4">
+            <p class="text-3xl font-semibold tracking-tight text-[var(--text-primary)]">{stat.value}</p>
+            <p class="mt-1 text-sm leading-6 text-[var(--text-muted)]">{stat.label}</p>
+          </div>
+        ))
+      }
     </div>
   </div>
-  <h1
-    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
-  >
-    Hola, soy Gabriel W. Silva de Araujo
-  </h1>
-  <p
-    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-blue-500 dark:[&>strong]:font-semibold dark:text-gray-300"
-  >
-    <strong>Cursando Análisis de Sistemas Informáticos y Desarrollador Full Stack.</strong>
-  </p>
-  <nav class="flex flex-wrap gap-4 mt-8">
-    <SocialPill href="/Curriculo(GABRIEL).pdf" download="Curriculo(GABRIEL).pdf">
-      <CVdownload class="size-4" />
-      CV
-    </SocialPill>
-    <SocialPill href="https://linkedin.com/in/gabriel-william-039b97306">
-      <LinkedInIcon class="size-4" />
-      LinkedIn
-    </SocialPill>
-    <SocialPill href="https://github.com/gabrielwsa">
-      <GitHubIcon class="size-4" />
-      GitHub
-    </SocialPill>
-    <SocialPill href="mailto:gabrielsilvadearaujo45@gmail.com">
-      <MailIcon class="size-4" />
-      Contáctame
-    </SocialPill>
-  </nav>
+
+  <aside class="panel-surface relative overflow-hidden rounded-[2rem] p-6 sm:p-8">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(20,184,166,0.14),transparent_38%),linear-gradient(180deg,transparent,rgba(255,255,255,0.18))] dark:bg-[radial-gradient(circle_at_top_right,rgba(94,234,212,0.12),transparent_38%),linear-gradient(180deg,transparent,rgba(15,23,42,0.3))]"></div>
+    <div class="relative">
+      <div class="flex items-center gap-4">
+        <img
+          class="h-20 w-20 rounded-[1.5rem] object-cover ring-4 ring-white/70 dark:ring-white/10"
+          src="/gabriel.jpg"
+          alt={personalImageAlt}
+        />
+        <div>
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-strong)]">
+            Perfil
+          </p>
+          <h2 class="mt-1 text-2xl font-semibold text-[var(--text-primary)]">Gabriel W. Silva</h2>
+          <p class="text-sm text-[var(--text-muted)]">{profile.role}</p>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-[1.5rem] border border-white/50 bg-white/60 p-5 dark:border-white/10 dark:bg-white/5">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--accent-strong)]">Ahora mismo</p>
+        <p class="mt-3 text-sm leading-7 text-[var(--text-secondary)]">
+          Mejorando sistemas internos en producción, colaborando con despliegues vía terminal y reforzando mi stack full stack con foco en calidad y continuidad operativa.
+        </p>
+      </div>
+
+      <div class="mt-5 grid gap-3">
+        {
+          focusAreas.map((item) => (
+            <div class="rounded-[1.25rem] border border-white/50 bg-white/60 px-4 py-3 text-sm leading-6 text-[var(--text-secondary)] dark:border-white/10 dark:bg-white/5">
+              {item}
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="mt-6 flex flex-wrap gap-3">
+        <SocialPill href={profile.github}>
+          <GitHubIcon class="size-4" />
+          GitHub
+        </SocialPill>
+        <SocialPill href={profile.linkedin}>
+          <LinkedInIcon class="size-4" />
+          LinkedIn
+        </SocialPill>
+        <SocialPill href={`mailto:${profile.email}`}>
+          <MailIcon class="size-4" />
+          Contacto
+        </SocialPill>
+      </div>
+    </div>
+  </aside>
 </div>

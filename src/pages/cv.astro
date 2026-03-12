@@ -1,0 +1,302 @@
+---
+import "@fontsource-variable/onest"
+import { getCollection } from "astro:content"
+import { experience, profile, projects, skills, strengths } from "@/data/portfolio"
+
+const certifications = (await getCollection("certifications")).sort((a, b) =>
+  a.data.title.localeCompare(b.data.title)
+)
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content={`CV HTML de ${profile.name} listo para guardar como PDF localmente.`}
+    />
+    <title>CV | {profile.name}</title>
+  </head>
+  <body class="bg-stone-100 text-slate-900 antialiased">
+    <main class="cv-page mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+      <div class="mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition-colors duration-300 hover:border-teal-700 hover:text-teal-700"
+        >
+          Volver al portafolio
+        </a>
+        <button
+          id="print-btn"
+          class="inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-colors duration-300 hover:bg-teal-700"
+          type="button"
+        >
+          Guardar como PDF
+        </button>
+      </div>
+
+      <article class="cv-paper overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_28px_80px_-40px_rgba(15,23,42,0.28)]">
+        <header class="cv-header border-b border-slate-200 px-8 py-10">
+          <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div class="max-w-2xl">
+              <p class="text-sm font-semibold uppercase tracking-[0.24em] text-teal-700">
+                {profile.role}
+              </p>
+              <h1 class="mt-3 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
+                {profile.name}
+              </h1>
+              <p class="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+                {profile.cvSummary}
+              </p>
+            </div>
+
+            <div class="cv-contact grid gap-3 rounded-[1.5rem] bg-slate-50 p-5 text-sm text-slate-600">
+              <a class="transition-colors duration-300 hover:text-teal-700" href={`mailto:${profile.email}`}>
+                {profile.email}
+              </a>
+              <a
+                class="transition-colors duration-300 hover:text-teal-700"
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+              <a
+                class="transition-colors duration-300 hover:text-teal-700"
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+              <a class="transition-colors duration-300 hover:text-teal-700" href="/">
+                Portafolio
+              </a>
+            </div>
+          </div>
+        </header>
+
+        <div class="cv-layout grid gap-8 px-8 py-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
+          <div class="cv-main space-y-8">
+            <section class="cv-section">
+              <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-teal-700">Experiencia</h2>
+              <div class="mt-5 space-y-5">
+                {
+                  experience.map((item) => (
+                    <article class="cv-card rounded-[1.5rem] border border-slate-200 bg-slate-50 px-5 py-5">
+                      <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                          <h3 class="text-xl font-semibold text-slate-950">{item.title}</h3>
+                          <p class="text-sm font-medium text-teal-700">{item.company}</p>
+                        </div>
+                        <time class="text-sm text-slate-500">{item.date}</time>
+                      </div>
+                      <p class="mt-4 text-sm leading-7 text-slate-600">{item.description}</p>
+                    </article>
+                  ))
+                }
+              </div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-teal-700">Proyectos</h2>
+              <div class="mt-5 space-y-5">
+                {
+                  projects.map((project) => (
+                    <article class="cv-card rounded-[1.5rem] border border-slate-200 bg-white px-5 py-5">
+                      <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                            {project.eyebrow}
+                          </p>
+                          <h3 class="mt-1 text-xl font-semibold text-slate-950">{project.title}</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                          {project.tags.map((tag) => (
+                            <span class="rounded-full bg-teal-50 px-3 py-1 text-xs font-medium text-teal-700">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <p class="mt-4 text-sm leading-7 text-slate-600">{project.description}</p>
+                      <div class="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
+                        <a
+                          class="transition-colors duration-300 hover:text-teal-700"
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          GitHub
+                        </a>
+                        <a
+                          class="transition-colors duration-300 hover:text-teal-700"
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Sitio web
+                        </a>
+                      </div>
+                    </article>
+                  ))
+                }
+              </div>
+            </section>
+          </div>
+
+          <aside class="cv-side space-y-8">
+            <section class="cv-section">
+              <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-teal-700">Fortalezas</h2>
+              <div class="mt-5 grid gap-3">
+                {
+                  strengths.map((strength) => (
+                    <div class="cv-card rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
+                      {strength}
+                    </div>
+                  ))
+                }
+              </div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-teal-700">Tecnologías</h2>
+              <div class="mt-5 flex flex-wrap gap-2">
+                {
+                  skills.map((skill) => (
+                    <span class="rounded-full border border-slate-200 px-3 py-1.5 text-sm text-slate-700">
+                      {skill}
+                    </span>
+                  ))
+                }
+              </div>
+            </section>
+
+            <section class="cv-section">
+              <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-teal-700">Certificados</h2>
+              <div class="mt-5 grid gap-3">
+                {
+                  certifications.map((certification) => (
+                    <div class="cv-card rounded-[1.25rem] border border-slate-200 bg-white px-4 py-4">
+                      <h3 class="text-sm font-semibold text-slate-950">{certification.data.title}</h3>
+                      <p class="mt-1 text-sm text-slate-600">{certification.data.description}</p>
+                      {certification.data.hours && (
+                        <p class="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
+                          {certification.data.hours}
+                        </p>
+                      )}
+                    </div>
+                  ))
+                }
+              </div>
+            </section>
+          </aside>
+        </div>
+      </article>
+    </main>
+
+    <style is:global>
+      :root {
+        color-scheme: light;
+      }
+
+      html {
+        font-family: "Onest Variable", system-ui, sans-serif;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
+
+      @media print {
+        html,
+        body {
+          background: white;
+        }
+
+        .cv-page {
+          max-width: none;
+          padding: 0;
+        }
+
+        .cv-paper {
+          border-radius: 24px;
+          border: 1px solid #e2e8f0;
+          box-shadow: none;
+          overflow: visible;
+        }
+
+        .cv-header,
+        .cv-layout {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+
+        .cv-layout {
+          display: flex;
+          align-items: flex-start;
+          gap: 24px;
+        }
+
+        .cv-main {
+          flex: 1 1 0%;
+          min-width: 0;
+        }
+
+        .cv-side {
+          width: 32%;
+          min-width: 220px;
+          flex: 0 0 32%;
+        }
+
+        .cv-contact,
+        .cv-section,
+        .cv-card {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        .cv-section + .cv-section {
+          margin-top: 24px;
+        }
+      }
+
+      @media print and (max-width: 900px) {
+        .cv-layout {
+          display: block;
+        }
+
+        .cv-side {
+          width: auto;
+          min-width: 0;
+          margin-top: 24px;
+        }
+      }
+    </style>
+
+    <script>
+      const printButton = document.getElementById("print-btn")
+      const triggerPrint = () => window.print()
+
+      printButton?.addEventListener("click", triggerPrint)
+
+      const searchParams = new URLSearchParams(window.location.search)
+      if (searchParams.get("print") === "1") {
+        window.addEventListener("load", () => {
+          window.setTimeout(triggerPrint, 250)
+        })
+      }
+    </script>
+  </body>
+</html>
