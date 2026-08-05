@@ -3,7 +3,7 @@ import LinkedInIcon from "@/components/icons/LinkedIn.astro"
 import MailIcon from "@/components/icons/Mail.astro"
 import GitHubIcon from "@/components/icons/GitHub.astro"
 import CVdownload from "@/components/icons/CVdownload.astro"
-import { getContent, profile } from "@/data/portfolio"
+import { getContent, profile, yearsOfExperience } from "@/data/portfolio"
 import { getLangFromUrl, localizePath, sectionHref, useTranslations } from "@/i18n/utils"
 
 const lang = getLangFromUrl(Astro.url)
@@ -11,7 +11,7 @@ const t = useTranslations(lang)
 const c = getContent(lang)
 
 const stats = [
-  { value: String(c.experience.length), label: c.stats[0] },
+  { value: `${yearsOfExperience()}+`, label: c.stats[0] },
   { value: `${c.projects.length}+`, label: c.stats[1] },
   { value: `${profile.certificationCount}+`, label: c.stats[2] },
 ]

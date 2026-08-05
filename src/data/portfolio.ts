@@ -9,6 +9,15 @@ export const profile = {
   certificationCount: 6,
 } as const
 
+/** First day of the first job, used to keep the years-of-experience stat current. */
+export const careerStart = new Date(2024, 8, 1)
+
+/** Years since `careerStart`, rounded to the nearest — shown as "N+" in the hero. */
+export function yearsOfExperience(now = new Date()): number {
+  const years = (now.getTime() - careerStart.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
+  return Math.max(1, Math.round(years))
+}
+
 export const skills = [
   "PHP",
   "JavaScript",
@@ -28,7 +37,8 @@ type ExperienceItem = {
   date: string
   title: string
   company: string
-  description: string
+  /** Empty while the role is still being written up; the UI omits it. */
+  description?: string
 }
 
 type ProjectItem = {
@@ -92,18 +102,17 @@ const es: Content = {
   ],
   experience: [
     {
-      date: "09/2024 - Actualmente",
+      date: "05/2025 - Actualmente",
       title: "Desarrollador Full Stack",
-      company: "EPEM",
-      description:
-        "Utilizando PHP con JavaScript para el mantenimiento y mejora del sistema web de la empresa EPEM, e implementando nuevos módulos en el sistema.",
+      company: "Inmobiliaria del Este (IDESA)",
+      description: "",
     },
     {
-      date: "04/2022 - Actualmente",
-      title: "Desarrollador DevOps",
-      company: "EPEM",
+      date: "09/2024 - 05/2025",
+      title: "Desarrollador Full Stack y DevOps",
+      company: "EPEM Emergencias Médicas",
       description:
-        "Realicé el despliegue de las funcionalidades desarrolladas en el sistema web de la empresa EPEM, accediendo al sistema mediante SSH y utilizando comandos de terminal. Además, ejecuté comandos directamente en producción para resolver incidencias y garantizar el correcto funcionamiento del sistema.",
+        "Gestioné los servidores de la empresa, realizando despliegues y tareas de mantenimiento mediante acceso SSH y comandos de terminal. Trabajé además en el desarrollo del sistema web con PHP y JavaScript, y en el soporte técnico, corrigiendo errores y garantizando el correcto funcionamiento del sistema en producción.",
     },
   ],
   projects: [
@@ -139,7 +148,7 @@ const es: Content = {
     "Trabajo en equipo, adaptabilidad y empatía",
     "Orientación a resultados y resolución de problemas",
   ],
-  stats: ["roles activos en EPEM", "proyectos públicos destacados", "certificados técnicos"],
+  stats: ["años de experiencia", "proyectos públicos destacados", "certificados técnicos"],
 }
 
 const en: Content = {
@@ -172,18 +181,17 @@ const en: Content = {
   ],
   experience: [
     {
-      date: "09/2024 - Present",
+      date: "05/2025 - Present",
       title: "Full Stack Developer",
-      company: "EPEM",
-      description:
-        "Using PHP with JavaScript to maintain and improve EPEM's web system, and implementing new modules within it.",
+      company: "Inmobiliaria del Este (IDESA)",
+      description: "",
     },
     {
-      date: "04/2022 - Present",
-      title: "DevOps Developer",
-      company: "EPEM",
+      date: "09/2024 - 05/2025",
+      title: "Full Stack & DevOps Developer",
+      company: "EPEM Emergencias Médicas",
       description:
-        "Deployed the features developed for EPEM's web system, accessing the server over SSH and working through terminal commands. I also ran commands directly in production to resolve incidents and keep the system running correctly.",
+        "Managed the company's servers, handling deployments and maintenance over SSH and through terminal commands. I also worked on the web system's development with PHP and JavaScript, and on technical support, fixing bugs and keeping the system running correctly in production.",
     },
   ],
   projects: [
@@ -217,7 +225,7 @@ const en: Content = {
     "Teamwork, adaptability and empathy",
     "Results-oriented and strong problem solving",
   ],
-  stats: ["active roles at EPEM", "featured public projects", "technical certificates"],
+  stats: ["years of experience", "featured public projects", "technical certificates"],
 }
 
 const content = { es, en } as const

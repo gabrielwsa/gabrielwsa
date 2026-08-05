@@ -16,7 +16,9 @@ const c = getContent(lang)
             {item.title}
           </h3>
           <p class="mt-1 text-sm font-medium text-[var(--accent-strong)]">{item.company}</p>
-          <p class="mt-4 leading-7 text-[var(--text-secondary)]">{item.description}</p>
+          {item.description && (
+            <p class="mt-4 leading-7 text-[var(--text-secondary)]">{item.description}</p>
+          )}
         </div>
       </li>
     ))

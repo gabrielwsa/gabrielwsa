@@ -75,7 +75,9 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
                         <time class="text-sm text-slate-500">{item.date}</time>
                       </div>
                       <p class="text-sm font-medium text-teal-700">{item.company}</p>
-                      <p class="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
+                      {item.description && (
+                        <p class="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
+                      )}
                     </article>
                   ))
                 }
