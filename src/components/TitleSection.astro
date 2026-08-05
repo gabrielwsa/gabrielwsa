@@ -1,5 +1,9 @@
+---
+const { class: className = "" } = Astro.props
+---
+
 <h2
-	class={`flex items-center gap-3 text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl [&>svg]:size-6 [&>svg]:shrink-0 [&>svg]:text-[var(--accent-strong)] ${Astro.props.className ?? ""}`}
+  class={`flex items-center gap-3 text-2xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-3xl [&>svg]:size-6 [&>svg]:shrink-0 [&>svg]:text-[var(--accent-strong)] ${className}`}
 >
-    <slot />
+  <slot />
 </h2>

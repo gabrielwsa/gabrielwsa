@@ -1,104 +1,93 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro"
+import LanguageToggle from "./LanguageToggle.astro"
+import { profile } from "@/data/portfolio"
+import { getLangFromUrl, sectionHref, sectionId, useTranslations } from "@/i18n/utils"
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
 
 const navItems = [
+  { title: t("nav.home"), label: sectionId("home", lang), url: sectionHref("home", lang) },
   {
-    title: "Inicio",
-    label: "inicio",
-    url: "/#inicio",
+    title: t("nav.experience"),
+    label: sectionId("experience", lang),
+    url: sectionHref("experience", lang),
   },
   {
-    title: "Experiencia",
-    label: "experiencia",
-    url: "/#experiencia",
+    title: t("nav.projects"),
+    label: sectionId("projects", lang),
+    url: sectionHref("projects", lang),
   },
   {
-    title: "Proyectos",
-    label: "proyectos",
-    url: "/#proyectos",
+    title: t("nav.certifications"),
+    label: sectionId("certifications", lang),
+    url: sectionHref("certifications", lang),
   },
-  {
-    title: "Certificaciones",
-    label: "certificados",
-    url: "/#certificados",
-  },
-  {
-    title: "Sobre mí",
-    label: "sobre-mi",
-    url: "/#sobre-mi",
-  },
-  {
-    title: "Contacto",
-    label: "contacto",
-    url: "mailto:gabrielsilvadearaujo45@gmail.com",
-  },
+  { title: t("nav.about"), label: sectionId("about", lang), url: sectionHref("about", lang) },
+  { title: t("nav.contact"), label: "contact", url: `mailto:${profile.email}` },
 ]
 ---
 
-<header class="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-6xl">
-    <nav class="panel-surface flex items-center justify-between rounded-full px-3 py-2.5 text-sm font-medium text-[var(--text-secondary)]">
-      <a
-        href="/#inicio"
-        class="inline-flex items-center gap-3 rounded-full px-2 py-1 text-[var(--text-primary)] transition-colors duration-300"
-        aria-label="Ir al inicio"
+<header
+  class="sticky top-0 z-50 border-b border-[var(--surface-border)] bg-[var(--page-bg)]/85 backdrop-blur"
+>
+  <nav
+    class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 text-sm sm:px-6 lg:px-8"
+  >
+    <a
+      href={sectionHref("home", lang)}
+      class="font-semibold tracking-tight text-[var(--text-primary)]"
+      aria-label={t("nav.toHome")}
+    >
+      Gabriel W. Silva
+    </a>
+
+    <div class="hidden items-center gap-1 md:flex">
+      {
+        navItems.map((link) => (
+          <a
+            class="nav-link rounded-full px-3 py-1.5 text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
+            data-nav-label={link.label}
+            href={link.url}
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="flex items-center gap-2">
+      <LanguageToggle />
+      <ThemeToggle />
+      <button
+        id="mobile-menu-button"
+        class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--surface-border)] text-[var(--text-primary)] transition-colors hover:text-[var(--accent-strong)] md:hidden"
+        aria-label={t("nav.openMenu")}
+        aria-expanded="false"
+        aria-controls="nav-menu"
       >
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold tracking-[0.2em] text-white dark:bg-white dark:text-slate-950">
-          GW
-        </span>
-        <span class="hidden sm:flex sm:flex-col sm:leading-tight">
-          <strong class="text-sm font-semibold text-[var(--text-primary)]">Gabriel W. Silva</strong>
-          <span class="text-xs text-[var(--text-muted)]">Full Stack Developer</span>
-        </span>
-      </a>
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
 
-      <div class="hidden items-center gap-1 md:flex">
-        {
-          navItems.map((link) => (
-            <a
-              class="nav-link rounded-full px-4 py-2 transition-colors duration-300 hover:text-[var(--accent-strong)]"
-              data-nav-label={link.label}
-              aria-label={link.label}
-              href={link.url}
-            >
-              {link.title}
-            </a>
-          ))
-        }
-      </div>
-
-      <div class="flex items-center gap-2">
-        <ThemeToggle />
-        <button
-          id="mobile-menu-button"
-          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/70 text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10 dark:bg-slate-900/70 md:hidden"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16"></path>
-          </svg>
-        </button>
-      </div>
-    </nav>
-
-    <div id="nav-backdrop" class="nav-backdrop md:hidden"></div>
-    <div id="nav-menu" class="panel-surface nav-menu md:hidden">
-      <div class="flex flex-col gap-1 p-3">
-        {
-          navItems.map((link) => (
-            <a
-              class="nav-link rounded-2xl px-4 py-3 text-base transition-colors duration-300 hover:text-[var(--accent-strong)]"
-              data-nav-label={link.label}
-              aria-label={link.label}
-              href={link.url}
-            >
-              {link.title}
-            </a>
-          ))
-        }
-      </div>
+  <div id="nav-menu" class="nav-menu border-t border-[var(--surface-border)] md:hidden">
+    <div class="mx-auto flex max-w-5xl flex-col px-4 py-2 sm:px-6">
+      {
+        navItems.map((link) => (
+          <a
+            class="nav-link rounded-lg px-3 py-2.5 text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
+            data-nav-label={link.label}
+            href={link.url}
+          >
+            {link.title}
+          </a>
+        ))
+      }
     </div>
   </div>
 </header>
@@ -117,18 +106,14 @@ const navItems = [
     const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".nav-link")]
     const mobileMenuButton = document.getElementById("mobile-menu-button")
     const navMenu = document.getElementById("nav-menu")
-    const navBackdrop = document.getElementById("nav-backdrop")
-    const body = document.body
 
-    if (!mobileMenuButton || !navMenu || !navBackdrop) {
+    if (!mobileMenuButton || !navMenu) {
       return
     }
 
     const setMenuOpen = (isOpen: boolean) => {
       navMenu.classList.toggle("is-open", isOpen)
-      navBackdrop.classList.toggle("is-open", isOpen)
       mobileMenuButton.setAttribute("aria-expanded", String(isOpen))
-      body.classList.toggle("overflow-hidden", isOpen)
     }
 
     const setActiveLink = (id: string) => {
@@ -141,7 +126,6 @@ const navItems = [
       setMenuOpen(!navMenu.classList.contains("is-open"))
     }
 
-    const onBackdropClick = () => setMenuOpen(false)
     const onResize = () => {
       if (window.innerWidth >= 768) {
         setMenuOpen(false)
@@ -149,7 +133,6 @@ const navItems = [
     }
 
     mobileMenuButton.addEventListener("click", onButtonClick)
-    navBackdrop.addEventListener("click", onBackdropClick)
     window.addEventListener("resize", onResize)
     const linkCleanup = navLinks.map((link) => {
       const onLinkClick = () => setMenuOpen(false)
@@ -183,7 +166,6 @@ const navItems = [
 
     headerWindow.__gabrielHeaderCleanup = () => {
       mobileMenuButton.removeEventListener("click", onButtonClick)
-      navBackdrop.removeEventListener("click", onBackdropClick)
       window.removeEventListener("resize", onResize)
       linkCleanup.forEach((cleanup) => cleanup())
       observer?.disconnect()
@@ -196,41 +178,14 @@ const navItems = [
 
 <style>
   .nav-menu {
-    position: fixed;
-    inset-inline: 1rem;
-    top: 5.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-0.75rem);
-    transition:
-      transform 0.3s ease,
-      opacity 0.3s ease;
+    display: none;
   }
 
   .nav-menu.is-open {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-
-  .nav-backdrop {
-    position: fixed;
-    inset: 0;
     display: block;
-    opacity: 0;
-    pointer-events: none;
-    background: rgba(2, 6, 23, 0.4);
-    backdrop-filter: blur(8px);
-    transition: opacity 0.3s ease;
-  }
-
-  .nav-backdrop.is-open {
-    opacity: 1;
-    pointer-events: auto;
   }
 
   .nav-link[data-active="true"] {
     color: var(--accent-strong);
-    background: var(--accent-soft);
   }
 </style>

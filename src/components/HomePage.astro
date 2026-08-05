@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/Layout.astro"
+
+import Briefcase from "@/components/icons/Briefcase.astro"
+import Device from "@/components/icons/Device.astro"
+import Experience from "@/components/Experience.astro"
+import Projects from "@/components/Projects.astro"
+import SectionContainer from "@/components/SectionContainer.astro"
+import Hero from "@/components/Hero.astro"
+import TitleSection from "@/components/TitleSection.astro"
+import ProfileCheck from "@/components/icons/ProfileCheck.astro"
+import AboutMe from "@/components/AboutMe.astro"
+import Certifications from "@/components/Certifications.astro"
+import Certificated from "@/components/icons/Certificated.astro"
+import { getLangFromUrl, sectionId, useTranslations } from "@/i18n/utils"
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+---
+
+<Layout title={t("meta.title")} description={t("meta.description")}>
+  <main class="flex flex-col">
+    <SectionContainer id={sectionId("home", lang)} class="py-16 sm:py-20">
+      <Hero />
+    </SectionContainer>
+
+    <SectionContainer
+      id={sectionId("experience", lang)}
+      class="border-t border-[var(--surface-border)] py-16 sm:py-20"
+    >
+      <TitleSection class="mb-10">
+        <Briefcase class="size-6" />
+        {t("section.experience")}
+      </TitleSection>
+      <Experience />
+    </SectionContainer>
+
+    <SectionContainer
+      id={sectionId("projects", lang)}
+      class="border-t border-[var(--surface-border)] py-16 sm:py-20"
+    >
+      <TitleSection class="mb-10">
+        <Device class="size-6" />
+        {t("section.projects")}
+      </TitleSection>
+      <Projects />
+    </SectionContainer>
+
+    <SectionContainer
+      id={sectionId("certifications", lang)}
+      class="border-t border-[var(--surface-border)] py-16 sm:py-20"
+    >
+      <TitleSection class="mb-10">
+        <Certificated class="size-6" />
+        {t("section.certifications")}
+      </TitleSection>
+      <Certifications />
+    </SectionContainer>
+
+    <SectionContainer
+      id={sectionId("about", lang)}
+      class="border-t border-[var(--surface-border)] py-16 sm:py-20"
+    >
+      <TitleSection class="mb-10">
+        <ProfileCheck class="size-6" />
+        {t("section.about")}
+      </TitleSection>
+      <AboutMe />
+    </SectionContainer>
+  </main>
+</Layout>

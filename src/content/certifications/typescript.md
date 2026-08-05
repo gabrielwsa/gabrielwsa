@@ -1,6 +1,8 @@
 ---
 title: "TypeScript"
 description: "Curso de TypeScript"
-file: "TypeScript.pdf"
+descriptionEn: "TypeScript course"
+file: "/src/content/certifications/TypeScript.pdf"
 hours: "9 horas en total"
---- 
+hoursEn: "9 hours total"
+---

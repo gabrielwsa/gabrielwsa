@@ -1,14 +1,23 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro"
-import { experience } from "@/data/portfolio"
+import { getContent } from "@/data/portfolio"
+import { getLangFromUrl } from "@/i18n/utils"
+
+const lang = getLangFromUrl(Astro.url)
+const c = getContent(lang)
 ---
 
-<ol class="relative space-y-6 before:absolute before:left-[0.6875rem] before:top-8 before:h-[calc(100%-4rem)] before:w-px before:bg-[var(--accent-border)]">
+<ol class="divide-y divide-[var(--surface-border)]">
   {
-    experience.map((item) => (
-      <li class="relative pl-8 sm:pl-12">
-        <div class="absolute left-0 top-8 h-4 w-4 rounded-full border-[5px] border-[var(--page-bg)] bg-[var(--accent-strong)]"></div>
-        <ExperienceItem {...item} />
+    c.experience.map((item) => (
+      <li class="grid gap-2 py-8 first:pt-0 last:pb-0 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-8">
+        <time class="text-sm leading-7 text-[var(--text-muted)]">{item.date}</time>
+        <div>
+          <h3 class="text-xl font-semibold tracking-tight text-[var(--text-primary)]">
+            {item.title}
+          </h3>
+          <p class="mt-1 text-sm font-medium text-[var(--accent-strong)]">{item.company}</p>
+          <p class="mt-4 leading-7 text-[var(--text-secondary)]">{item.description}</p>
+        </div>
       </li>
     ))
   }

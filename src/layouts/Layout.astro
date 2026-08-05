@@ -3,8 +3,9 @@ import "@fontsource-variable/onest"
 
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
-import Particles from "../components/Particles.astro"
 import { ViewTransitions } from "astro:transitions"
+import { alternatePath, getLangFromUrl } from "@/i18n/utils"
+import { languages, type Lang } from "@/i18n/ui"
 
 interface Props {
   title: string
@@ -12,34 +13,31 @@ interface Props {
 }
 
 const { description, title } = Astro.props
+const lang = getLangFromUrl(Astro.url)
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    {
+      (Object.keys(languages) as Lang[]).map((code) => (
+        <link
+          rel="alternate"
+          hreflang={code}
+          href={new URL(alternatePath(Astro.url, code), Astro.site)}
+        />
+      ))
+    }
     <title>{title}</title>
     <ViewTransitions />
   </head>
 
   <body class="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] antialiased">
-    <div aria-hidden="true" class="fixed inset-0 -z-30 overflow-hidden">
-      <div class="absolute left-[-8rem] top-[-8rem] h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl sm:h-96 sm:w-96"></div>
-      <div class="absolute right-[-6rem] top-1/4 h-64 w-64 rounded-full bg-[var(--accent-soft-2)] blur-3xl sm:h-80 sm:w-80"></div>
-      <div class="absolute bottom-[-10rem] left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[var(--accent-soft)] blur-3xl sm:h-[28rem] sm:w-[28rem]"></div>
-    </div>
-    <Particles />
-    <div
-      aria-hidden="true"
-      class="fixed inset-0 -z-20 min-h-screen w-full bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.65),transparent_38%),linear-gradient(180deg,rgba(255,255,255,0.18),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.3),transparent_36%)] dark:bg-[radial-gradient(circle_at_top,rgba(125,211,252,0.08),transparent_35%),linear-gradient(180deg,rgba(15,23,42,0.45),transparent_24%),linear-gradient(135deg,rgba(56,189,248,0.08),transparent_32%)]"
-    >
-      <div class="absolute inset-0 bg-[linear-gradient(to_right,transparent_0%,rgba(15,23,42,0.04)_50%,transparent_100%)] dark:bg-[linear-gradient(to_right,transparent_0%,rgba(148,163,184,0.06)_50%,transparent_100%)]"></div>
-      <div class="absolute inset-0 opacity-40 dark:opacity-20 bg-[radial-gradient(circle_at_center,rgba(15,23,42,0.08)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-    </div>
     <Header />
     <div class="relative flex-1 pb-16">
       <slot />
@@ -48,34 +46,28 @@ const { description, title } = Astro.props
     <style is:global>
       :root {
         color-scheme: light;
-        --page-bg: #f5efe6;
-        --surface: rgba(255, 255, 255, 0.7);
-        --surface-strong: rgba(255, 255, 255, 0.9);
-        --surface-border: rgba(148, 163, 184, 0.22);
-        --surface-shadow: 0 24px 80px -36px rgba(15, 23, 42, 0.28);
-        --text-primary: rgba(15, 23, 42, 0.95);
-        --text-secondary: rgba(51, 65, 85, 0.86);
-        --text-muted: rgba(71, 85, 105, 0.7);
+        --page-bg: #fbfaf8;
+        --surface: #ffffff;
+        --surface-border: rgba(15, 23, 42, 0.08);
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
         --accent-strong: #0f766e;
-        --accent-soft: rgba(20, 184, 166, 0.18);
-        --accent-soft-2: rgba(249, 115, 22, 0.14);
-        --accent-border: rgba(15, 118, 110, 0.18);
+        --accent-soft: rgba(15, 118, 110, 0.08);
+        --accent-border: rgba(15, 118, 110, 0.2);
       }
 
       html.dark {
         color-scheme: dark;
-        --page-bg: #07111f;
-        --surface: rgba(8, 15, 30, 0.72);
-        --surface-strong: rgba(11, 19, 36, 0.88);
+        --page-bg: #0b1120;
+        --surface: #111a2c;
         --surface-border: rgba(148, 163, 184, 0.14);
-        --surface-shadow: 0 24px 80px -36px rgba(2, 6, 23, 0.85);
-        --text-primary: rgba(241, 245, 249, 0.96);
-        --text-secondary: rgba(203, 213, 225, 0.85);
-        --text-muted: rgba(148, 163, 184, 0.74);
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
         --accent-strong: #5eead4;
-        --accent-soft: rgba(45, 212, 191, 0.14);
-        --accent-soft-2: rgba(251, 146, 60, 0.12);
-        --accent-border: rgba(94, 234, 212, 0.14);
+        --accent-soft: rgba(94, 234, 212, 0.1);
+        --accent-border: rgba(94, 234, 212, 0.22);
       }
 
       html {
@@ -89,7 +81,6 @@ const { description, title } = Astro.props
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        overscroll-behavior: none;
         background: var(--page-bg);
         color: var(--text-primary);
       }
@@ -108,7 +99,9 @@ const { description, title } = Astro.props
           scroll-behavior: auto;
         }
 
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
           animation-duration: 0.01ms !important;
           animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;
@@ -119,34 +112,6 @@ const { description, title } = Astro.props
       .panel-surface {
         background: var(--surface);
         border: 1px solid var(--surface-border);
-        box-shadow: var(--surface-shadow);
-        backdrop-filter: blur(24px);
-      }
-
-      .section-shell {
-        border-radius: 2rem;
-        padding: 1.5rem;
-      }
-
-      .section-kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        border-radius: 9999px;
-        padding: 0.45rem 0.85rem;
-        border: 1px solid var(--accent-border);
-        background: var(--accent-soft);
-        color: var(--accent-strong);
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      @media (min-width: 640px) {
-        .section-shell {
-          padding: 2rem;
-        }
       }
     </style>
   </body>

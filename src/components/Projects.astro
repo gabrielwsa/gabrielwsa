@@ -1,85 +1,85 @@
 ---
-import GitHub from "./icons/GitHub.astro";
-import Link from "./icons/Link.astro";
-import LinkButton from "./LinkButton.astro";
-import React from "./icons/React.astro";
-import { projects } from "@/data/portfolio";
+import GitHub from "./icons/GitHub.astro"
+import Link from "./icons/Link.astro"
+import React from "./icons/React.astro"
+import { getContent } from "@/data/portfolio"
+import { getLangFromUrl, useTranslations } from "@/i18n/utils"
 
-const TAGS = {
-  REACT: {
-    name: "React",
-    icon: React,
-  },
-};
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+const c = getContent(lang)
 
 const tagMap = {
-  React: TAGS.REACT,
-};
+  React: { name: "React", icon: React },
+}
 ---
 
-<div class="grid gap-6">
+<div class="grid gap-10 sm:grid-cols-2">
   {
-    projects.map(
-      ({ image, title, eyebrow, description, tags, link, github }, index) => (
-        <article class="panel-surface group overflow-hidden rounded-[2rem]">
-          <div class="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-            <div class="p-3 sm:p-4">
-              <div class="relative h-full min-h-[260px] overflow-hidden rounded-[1.5rem] border border-white/50 bg-slate-950 dark:border-white/10">
-                <img
-                  alt={`Vista previa de ${title}`}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                  src={image}
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/10 to-transparent" />
-              </div>
-            </div>
+    c.projects.map(({ image, title, eyebrow, description, tags, link, github }) => (
+      <article class="group flex flex-col">
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="overflow-hidden rounded-xl border border-[var(--surface-border)]"
+        >
+          <img
+            alt={`${t("projects.preview")} ${title}`}
+            class="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            loading="lazy"
+            src={image}
+          />
+        </a>
 
-            <div class="flex flex-col justify-between gap-6 p-6 sm:p-8">
-              <div>
-                <span class="section-kicker">{eyebrow}</span>
-                <h3 class="mt-4 text-2xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-3xl">
-                  {title}
-                </h3>
-                <p class="mt-4 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
-                  {description}
-                </p>
-              </div>
+        <div class="mt-5 flex flex-1 flex-col">
+          <p class="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">
+            {eyebrow}
+          </p>
+          <h3 class="mt-2 text-xl font-semibold tracking-tight text-[var(--text-primary)]">
+            {title}
+          </h3>
+          <p class="mt-3 flex-1 leading-7 text-[var(--text-secondary)]">{description}</p>
 
-              <div class="flex flex-wrap gap-2">
-                {tags.map((tagName) => {
-                  const tag = tagMap[tagName];
+          <div class="mt-5 flex flex-wrap items-center gap-2">
+            {tags.map((tagName) => {
+              const tag = tagMap[tagName]
 
-                  return (
-                    <span class="inline-flex items-center gap-x-2 rounded-full border border-[var(--accent-border)] bg-white/60 px-3 py-1.5 text-xs font-medium text-[var(--text-primary)] dark:bg-white/5">
-                      <tag.icon class="size-4 text-[var(--accent-strong)]" />
-                      {tag.name}
-                    </span>
-                  );
-                })}
-              </div>
-
-              <div class="flex flex-wrap gap-3">
-                {github && (
-                  <LinkButton href={github}>
-                    <GitHub class="size-5" />
-                    GitHub
-                  </LinkButton>
-                )}
-                {link && (
-                  <LinkButton
-                    href={link}
-                    class="border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent-strong)] hover:border-[var(--accent-strong)] hover:bg-[var(--accent-strong)] hover:text-slate-950 dark:hover:text-slate-950"
-                  >
-                    <Link class="size-4" />
-                    Sitio web
-                  </LinkButton>
-                )}
-              </div>
-            </div>
+              return (
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent-soft)] px-2.5 py-1 text-xs font-medium text-[var(--accent-strong)]">
+                  <tag.icon class="size-3.5" />
+                  {tag.name}
+                </span>
+              )
+            })}
           </div>
-        </article>
-      ),
-    )
+
+          <div class="mt-5 flex flex-wrap gap-4 text-sm font-medium">
+            {github && (
+              <a
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
+              >
+                <GitHub class="size-4" />
+                GitHub
+              </a>
+            )}
+            {link && (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 text-[var(--accent-strong)] transition-opacity hover:opacity-80"
+              >
+                <Link class="size-4" />
+                {t("projects.website")}
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    ))
   }
 </div>

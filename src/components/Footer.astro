@@ -1,47 +1,38 @@
 ---
-const currentYear = new Date().getFullYear()
 import { profile } from "@/data/portfolio"
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils"
+
+const currentYear = new Date().getFullYear()
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+
+const links = [
+  { href: localizePath("/cv?print=0", lang), label: t("hero.cv"), external: false },
+  { href: profile.github, label: "GitHub", external: true },
+  { href: profile.linkedin, label: "LinkedIn", external: true },
+  { href: `mailto:${profile.email}`, label: t("nav.contact"), external: false },
+]
 ---
 
-<footer class="px-4 pb-10 pt-8 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-6xl">
-    <div class="panel-surface rounded-[2rem] px-6 py-6 sm:px-8 sm:py-8">
-      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div class="flex flex-wrap gap-3">
-          <a
-            href={profile.cvRoute}
-            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
-          >
-            CV en PDF
-          </a>
-          <a
-            href="/#proyectos"
-            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
-          >
-            Ver proyectos
-          </a>
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
-          >
-            GitHub
-          </a>
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center rounded-full border border-slate-300/70 px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10"
-          >
-            LinkedIn
-          </a>
-        </div>
-      </div>
+<footer class="border-t border-[var(--surface-border)]">
+  <div
+    class="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 text-sm text-[var(--text-muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"
+  >
+    <p>© {currentYear} {profile.name}. {t("footer.rights")}</p>
 
-      <div class="mt-8 border-t border-white/50 pt-4 text-sm text-[var(--text-muted)] dark:border-white/10">
-        © {currentYear} Gabriel W. Silva de Araujo. Portafolio personal.
-      </div>
+    <div class="flex flex-wrap gap-5">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            class="transition-colors hover:text-[var(--text-primary)]"
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </div>
   </div>
 </footer>
