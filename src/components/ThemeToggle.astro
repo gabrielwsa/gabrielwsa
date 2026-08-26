@@ -10,25 +10,25 @@ const THEMES = ["Light", "Dark", "System"]
   <button
     transition:persist
     id="theme-toggle-btn"
-    class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/70 text-[var(--text-primary)] transition-all duration-300 hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)] dark:border-white/10 dark:bg-slate-900/70"
+    class="inline-flex h-9 w-9 items-center justify-center border-2 border-[var(--rule)] text-[var(--text-primary)] transition-colors duration-200 hover:bg-[var(--accent)] hover:text-[var(--accent-contrast)]"
     aria-haspopup="true"
     aria-expanded="false"
   >
-    <span class="sr-only">Elige el tema</span>
+    <span class="sr-only">Tema</span>
     <SunIcon id="light" class="theme-toggle-icon size-5 transition-all" />
     <MoonIcon id="dark" class="theme-toggle-icon absolute size-5 transition-all" />
     <SystemIcon id="system" class="theme-toggle-icon absolute size-5 transition-all" />
   </button>
-  <div transition:persist id="themes-menu" class="panel-surface absolute right-0 top-14 hidden min-w-[11rem] rounded-2xl p-2 text-sm">
+  <div transition:persist id="themes-menu" class="panel-surface mono absolute right-0 top-12 hidden min-w-[10rem] p-1 text-[0.7rem] uppercase tracking-[0.15em]">
     <ul class="flex flex-col gap-1">
       {
         THEMES.map((theme) => (
           <li
-            class="themes-menu-option flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-[var(--text-secondary)] transition-colors duration-300 hover:text-[var(--text-primary)]"
+            class="themes-menu-option flex cursor-pointer items-center justify-between px-3 py-2 text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--text-primary)]"
             data-theme={theme.toLowerCase()}
           >
             <span>{theme}</span>
-            <span class="h-2.5 w-2.5 rounded-full bg-current opacity-0 transition-opacity duration-300"></span>
+            <span class="h-2 w-2 bg-current opacity-0 transition-opacity duration-200"></span>
           </li>
         ))
       }
@@ -39,26 +39,26 @@ const THEMES = ["Light", "Dark", "System"]
 <style>
   #themes-menu.open {
     display: inline-block;
-    animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation: drop-in 0.12s ease-out both;
   }
 
   .themes-menu-option[data-active="true"] {
-    background: var(--accent-soft);
-    color: var(--accent-strong);
+    background: var(--accent);
+    color: var(--accent-contrast);
   }
 
   .themes-menu-option[data-active="true"] span:last-child {
     opacity: 1;
   }
 
-  @keyframes scale-up-center {
+  @keyframes drop-in {
     from {
-      transform: scale(0.8);
+      transform: translateY(-4px);
       opacity: 0;
     }
 
     to {
-      transform: scale(1);
+      transform: translateY(0);
       opacity: 1;
     }
   }

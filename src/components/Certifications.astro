@@ -1,8 +1,9 @@
 ---
 import { getCollection } from "astro:content"
-import { getLangFromUrl } from "@/i18n/utils"
+import { getLangFromUrl, useTranslations } from "@/i18n/utils"
 
 const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
 
 const certifications = (await getCollection("certifications")).sort((a, b) =>
   a.data.title.localeCompare(b.data.title)
@@ -11,29 +12,53 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
 const resolveCertificateHref = (file: string) => `/certifications/${file.split("/").pop()}`
 ---
 
-<ul class="divide-y divide-[var(--surface-border)]">
+<ul class="border-t border-[var(--rule-soft)]">
   {
-    certifications.map((certification) => (
-      <li>
+    certifications.map((certification, index) => (
+      <li class="border-b border-[var(--rule-soft)]">
         <a
           href={resolveCertificateHref(certification.data.file)}
           target="_blank"
           rel="noopener noreferrer"
-          class="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4 transition-colors"
+          class="cert-row group grid items-baseline gap-x-6 gap-y-2 py-5 transition-colors sm:grid-cols-[3rem_minmax(0,1fr)_auto]"
         >
-          <span class="font-medium text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent-strong)]">
-            {lang === "en"
-              ? (certification.data.titleEn ?? certification.data.title)
-              : certification.data.title}
+          <span class="mono text-[0.7rem] tracking-[0.2em] text-[var(--text-muted)] transition-colors group-hover:text-[var(--accent)]">
+            {String(index + 1).padStart(2, "0")}
           </span>
-          <span class="text-sm text-[var(--text-muted)]">
+
+          <div>
+            <span class="block font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
+              {lang === "en"
+                ? (certification.data.titleEn ?? certification.data.title)
+                : certification.data.title}
+            </span>
+            <span class="mt-1 block text-sm leading-6 text-[var(--text-secondary)]">
+              {lang === "en" ? certification.data.descriptionEn : certification.data.description}
+            </span>
+          </div>
+
+          <span class="mono flex items-center gap-3 text-[0.7rem] uppercase tracking-[0.15em] text-[var(--text-muted)] sm:justify-end">
             {lang === "en" ? certification.data.hoursEn : certification.data.hours}
-          </span>
-          <span class="w-full text-sm text-[var(--text-secondary)]">
-            {lang === "en" ? certification.data.descriptionEn : certification.data.description}
+            <span
+              aria-hidden="true"
+              class="text-[var(--accent)] opacity-0 transition-opacity group-hover:opacity-100"
+              title={t("cert.view")}
+            >
+              ↗
+            </span>
           </span>
         </a>
       </li>
     ))
   }
 </ul>
+
+<style>
+  .cert-row:hover {
+    background: var(--accent-soft);
+    /* Bleed the hover tint past the text column so the row reads as a band. */
+    box-shadow:
+      -1rem 0 0 var(--accent-soft),
+      1rem 0 0 var(--accent-soft);
+  }
+</style>

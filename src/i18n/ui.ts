@@ -37,6 +37,7 @@ export const ui = {
     "cert.view": "Ver certificado",
 
     "footer.rights": "Portafolio personal.",
+    "footer.kicker": "Escribime",
 
     "cv.title": "CV",
     "cv.back": "Volver al portafolio",
@@ -82,6 +83,7 @@ export const ui = {
     "cert.view": "View certificate",
 
     "footer.rights": "Personal portfolio.",
+    "footer.kicker": "Get in touch",
 
     "cv.title": "Resume",
     "cv.back": "Back to portfolio",

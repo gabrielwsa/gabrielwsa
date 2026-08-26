@@ -1,35 +1,59 @@
 ---
-import { getContent } from "@/data/portfolio"
-import { getLangFromUrl } from "@/i18n/utils"
+import { getContent, skills } from "@/data/portfolio"
+import { getLangFromUrl, useTranslations } from "@/i18n/utils"
 
 const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
 const c = getContent(lang)
 ---
 
 <div class="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-  <div class="space-y-5">
+  <div class="space-y-6">
     {
-      c.aboutParagraphs.map((paragraph) => (
-        <p class="text-lg leading-8 text-[var(--text-secondary)]">
+      c.aboutParagraphs.map((paragraph, index) => (
+        <p
+          class:list={[
+            "leading-8 text-[var(--text-secondary)]",
+            index === 0
+              ? "text-xl leading-9 first-letter:mr-2 first-letter:float-left first-letter:font-semibold first-letter:text-6xl first-letter:leading-[0.85] first-letter:text-[var(--accent)]"
+              : "text-lg",
+          ]}
+        >
           {paragraph.text}
-          <strong class="font-medium text-[var(--text-primary)]">{paragraph.strong}</strong>
+          <strong class="font-semibold text-[var(--text-primary)]">{paragraph.strong}</strong>
           {paragraph.rest}
         </p>
       ))
     }
   </div>
 
-  <ul class="space-y-3">
-    {
-      c.strengths.map((strength) => (
-        <li class="flex gap-3 text-[var(--text-secondary)]">
-          <span
-            aria-hidden="true"
-            class="mt-2.5 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--accent-strong)]"
-          />
-          <span class="leading-7">{strength}</span>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="space-y-10">
+    <ul class="border-t-2 border-[var(--rule)]">
+      {
+        c.strengths.map((strength) => (
+          <li class="flex gap-4 border-b border-[var(--rule-soft)] py-4 text-[var(--text-secondary)]">
+            <span aria-hidden="true" class="mono shrink-0 text-[var(--accent)]">
+              →
+            </span>
+            <span class="leading-7">{strength}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div>
+      <p class="mono text-[0.65rem] uppercase tracking-[0.25em] text-[var(--text-muted)]">
+        {t("cv.skills")}
+      </p>
+      <div class="mt-4 flex flex-wrap gap-2">
+        {
+          skills.map((skill) => (
+            <span class="mono border border-[var(--rule-soft)] px-2.5 py-1.5 text-[0.7rem] uppercase tracking-[0.1em] text-[var(--text-secondary)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]">
+              {skill}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
 </div>

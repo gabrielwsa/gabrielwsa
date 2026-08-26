@@ -14,29 +14,32 @@ const tagMap = {
 }
 ---
 
-<div class="grid gap-10 sm:grid-cols-2">
+<div class="grid gap-8 sm:grid-cols-2">
   {
-    c.projects.map(({ image, title, eyebrow, description, tags, link, github }) => (
-      <article class="group flex flex-col">
+    c.projects.map(({ image, title, eyebrow, description, tags, link, github }, index) => (
+      <article class="hard-shift group flex flex-col border-2 border-[var(--rule)] bg-[var(--surface)]">
         <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          class="overflow-hidden rounded-xl border border-[var(--surface-border)]"
+          class="relative block overflow-hidden border-b-2 border-[var(--rule)]"
         >
           <img
             alt={`${t("projects.preview")} ${title}`}
-            class="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            class="aspect-[16/10] w-full object-cover object-top"
             loading="lazy"
             src={image}
           />
+          <span class="mono absolute left-0 top-0 bg-[var(--rule)] px-2 py-1 text-[0.65rem] tracking-[0.2em] text-[var(--page-bg)]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
         </a>
 
-        <div class="mt-5 flex flex-1 flex-col">
-          <p class="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">
+        <div class="flex flex-1 flex-col p-6">
+          <p class="mono text-[0.65rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">
             {eyebrow}
           </p>
-          <h3 class="mt-2 text-xl font-semibold tracking-tight text-[var(--text-primary)]">
+          <h3 class="mt-3 text-xl font-semibold tracking-[-0.02em] text-[var(--text-primary)]">
             {title}
           </h3>
           <p class="mt-3 flex-1 leading-7 text-[var(--text-secondary)]">{description}</p>
@@ -46,7 +49,7 @@ const tagMap = {
               const tag = tagMap[tagName]
 
               return (
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-[var(--accent-soft)] px-2.5 py-1 text-xs font-medium text-[var(--accent-strong)]">
+                <span class="mono inline-flex items-center gap-1.5 border border-[var(--rule-soft)] px-2 py-1 text-[0.65rem] uppercase tracking-[0.15em] text-[var(--text-secondary)]">
                   <tag.icon class="size-3.5" />
                   {tag.name}
                 </span>
@@ -54,7 +57,7 @@ const tagMap = {
             })}
           </div>
 
-          <div class="mt-5 flex flex-wrap gap-4 text-sm font-medium">
+          <div class="mono mt-6 flex flex-wrap gap-5 border-t border-[var(--rule-soft)] pt-4 text-[0.7rem] uppercase tracking-[0.15em]">
             {github && (
               <a
                 href={github}
@@ -71,7 +74,7 @@ const tagMap = {
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 text-[var(--accent-strong)] transition-opacity hover:opacity-80"
+                class="inline-flex items-center gap-1.5 text-[var(--accent)] transition-opacity hover:opacity-70"
               >
                 <Link class="size-4" />
                 {t("projects.website")}

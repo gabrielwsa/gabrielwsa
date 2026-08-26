@@ -39,35 +39,40 @@ const lang = getLangFromUrl(Astro.url)
 
   <body class="min-h-screen bg-[var(--page-bg)] text-[var(--text-primary)] antialiased">
     <Header />
-    <div class="relative flex-1 pb-16">
+    <div class="relative flex-1">
       <slot />
     </div>
     <Footer />
     <style is:global>
       :root {
         color-scheme: light;
-        --page-bg: #fbfaf8;
-        --surface: #ffffff;
-        --surface-border: rgba(15, 23, 42, 0.08);
-        --text-primary: #0f172a;
-        --text-secondary: #475569;
-        --text-muted: #64748b;
-        --accent-strong: #0f766e;
-        --accent-soft: rgba(15, 118, 110, 0.08);
-        --accent-border: rgba(15, 118, 110, 0.2);
+        /* Warm paper stock instead of the usual cool grey. */
+        --page-bg: #f2efe6;
+        --surface: #fffdf7;
+        --text-primary: #14110d;
+        --text-secondary: #4a443b;
+        --text-muted: #7c7365;
+        /* Hard rules use the ink colour; hairlines use the soft variant. */
+        --rule: #14110d;
+        --rule-soft: rgba(20, 17, 13, 0.16);
+        --accent: #d4300f;
+        --accent-contrast: #fffdf7;
+        --accent-soft: rgba(212, 48, 15, 0.1);
+        --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
       }
 
       html.dark {
         color-scheme: dark;
-        --page-bg: #0b1120;
-        --surface: #111a2c;
-        --surface-border: rgba(148, 163, 184, 0.14);
-        --text-primary: #f1f5f9;
-        --text-secondary: #cbd5e1;
-        --text-muted: #94a3b8;
-        --accent-strong: #5eead4;
-        --accent-soft: rgba(94, 234, 212, 0.1);
-        --accent-border: rgba(94, 234, 212, 0.22);
+        --page-bg: #12100d;
+        --surface: #1a1713;
+        --text-primary: #f5f0e6;
+        --text-secondary: #c3bbab;
+        --text-muted: #8d8475;
+        --rule: #f5f0e6;
+        --rule-soft: rgba(245, 240, 230, 0.18);
+        --accent: #ff6a3d;
+        --accent-contrast: #12100d;
+        --accent-soft: rgba(255, 106, 61, 0.12);
       }
 
       html {
@@ -87,11 +92,42 @@ const lang = getLangFromUrl(Astro.url)
 
       * {
         box-sizing: border-box;
+        /* No rounded corners anywhere on this site. */
+        border-radius: 0;
+      }
+
+      /* Paper grain: keeps the flat colours from looking like a template. */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        pointer-events: none;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
       }
 
       ::selection {
-        background: var(--accent-soft);
-        color: var(--text-primary);
+        background: var(--accent);
+        color: var(--accent-contrast);
+      }
+
+      .mono {
+        font-family: var(--font-mono);
+      }
+
+      /* Shared brutalist affordance: the block lifts onto a hard accent shadow. */
+      .hard-shift {
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          background-color 0.15s ease,
+          color 0.15s ease;
+      }
+
+      .hard-shift:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 5px 5px 0 var(--accent);
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -107,11 +143,15 @@ const lang = getLangFromUrl(Astro.url)
           transition-duration: 0.01ms !important;
           scroll-behavior: auto !important;
         }
+
+        .hard-shift:hover {
+          transform: none;
+        }
       }
 
       .panel-surface {
         background: var(--surface);
-        border: 1px solid var(--surface-border);
+        border: 2px solid var(--rule);
       }
     </style>
   </body>

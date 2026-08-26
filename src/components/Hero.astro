@@ -23,57 +23,65 @@ const links = [
 ]
 ---
 
-<div class="flex flex-col gap-10">
-  <div class="flex items-center gap-4">
-    <img
-      class="h-14 w-14 rounded-full object-cover"
-      src="/gabriel.jpg"
-      alt={profile.name}
-      width="56"
-      height="56"
-    />
-    <div>
-      <p class="font-medium text-[var(--text-primary)]">Gabriel W. Silva</p>
-      <p class="flex items-center gap-2 text-sm text-[var(--text-muted)]">
-        <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+<div class="flex flex-col gap-12">
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-4">
+    <!-- Photo sits in a hard frame, offset from a solid accent block behind it. -->
+    <div class="relative shrink-0">
+      <div class="absolute left-2 top-2 h-16 w-16 bg-[var(--accent)]"></div>
+      <img
+        class="relative h-16 w-16 border-2 border-[var(--rule)] object-cover grayscale transition-all duration-300 hover:grayscale-0"
+        src="/gabriel.jpg"
+        alt={profile.name}
+        width="64"
+        height="64"
+      />
+    </div>
+
+    <div class="mono flex flex-col gap-1.5 text-[0.7rem] uppercase tracking-[0.2em]">
+      <span class="text-[var(--text-muted)]">{c.role}</span>
+      <span class="flex items-center gap-2 text-[var(--text-primary)]">
+        <span class="inline-block h-2 w-2 animate-pulse bg-[var(--accent)]"></span>
         {t("hero.available")}
-      </p>
+      </span>
     </div>
   </div>
 
   <div>
     <h1
-      class="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl"
+      class="max-w-4xl text-balance text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-[var(--text-primary)] sm:text-6xl"
     >
       {c.tagline}
     </h1>
 
-    <p class="mt-6 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
-      {t("hero.iam")} <strong class="font-medium text-[var(--text-primary)]">{profile.name}</strong>,
-      {c.summary}
-    </p>
+    <div class="mt-8 grid gap-x-10 gap-y-5 border-t-2 border-[var(--rule)] pt-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <p class="text-lg leading-8 text-[var(--text-secondary)]">
+        {t("hero.iam")} <strong class="font-semibold text-[var(--text-primary)]">{profile.name}</strong>,
+        {c.summary}
+      </p>
 
-    <p class="mt-4 max-w-2xl leading-7 text-[var(--text-muted)]">
-      {c.heroNote}
-    </p>
+      <p class="border-l-2 border-[var(--accent)] pl-5 leading-7 text-[var(--text-muted)]">
+        {c.heroNote}
+      </p>
+    </div>
   </div>
 
   <div class="flex flex-wrap items-center gap-3">
     <a
       href={localizePath("/cv?print=0", lang)}
-      class="inline-flex items-center gap-2 rounded-full bg-[var(--text-primary)] px-4 py-2.5 text-sm font-medium text-[var(--page-bg)] transition-opacity hover:opacity-90"
+      class="hard-shift mono inline-flex items-center gap-2 border-2 border-[var(--rule)] bg-[var(--rule)] px-5 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-[var(--page-bg)]"
     >
       <CVdownload class="size-4" />
       {t("hero.cv")}
     </a>
     <a
       href={sectionHref("projects", lang)}
-      class="inline-flex items-center gap-2 rounded-full border border-[var(--surface-border)] px-4 py-2.5 text-sm font-medium text-[var(--text-primary)] transition-colors hover:border-[var(--accent-border)] hover:text-[var(--accent-strong)]"
+      class="hard-shift mono inline-flex items-center gap-2 border-2 border-[var(--rule)] px-5 py-3 text-[0.7rem] uppercase tracking-[0.2em] text-[var(--text-primary)]"
     >
       {t("hero.viewProjects")}
+      <span aria-hidden="true">↓</span>
     </a>
 
-    <div class="flex items-center gap-1 sm:ml-2">
+    <div class="flex items-center gap-2 sm:ml-2">
       {
         links.map((link) => (
           <a
@@ -81,7 +89,7 @@ const links = [
             target={link.href.startsWith("http") ? "_blank" : undefined}
             rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
             aria-label={link.label}
-            class="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent-strong)]"
+            class="inline-flex h-11 w-11 items-center justify-center border-2 border-[var(--rule-soft)] text-[var(--text-muted)] transition-colors hover:border-[var(--rule)] hover:bg-[var(--accent)] hover:text-[var(--accent-contrast)]"
           >
             <link.icon class="size-5" />
           </a>
@@ -90,14 +98,21 @@ const links = [
     </div>
   </div>
 
-  <dl class="grid gap-6 border-t border-[var(--surface-border)] pt-8 sm:grid-cols-3">
+  <dl class="grid border-2 border-[var(--rule)] sm:grid-cols-3">
     {
-      stats.map((stat) => (
-        <div>
-          <dt class="text-3xl font-semibold tracking-tight text-[var(--text-primary)]">
+      stats.map((stat, index) => (
+        <div
+          class:list={[
+            "px-5 py-6",
+            index > 0 && "border-t-2 border-[var(--rule)] sm:border-l-2 sm:border-t-0",
+          ]}
+        >
+          <dt class="text-4xl font-semibold tracking-[-0.04em] text-[var(--text-primary)]">
             {stat.value}
           </dt>
-          <dd class="mt-1 text-sm text-[var(--text-muted)]">{stat.label}</dd>
+          <dd class="mono mt-2 text-[0.65rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+            {stat.label}
+          </dd>
         </div>
       ))
     }
