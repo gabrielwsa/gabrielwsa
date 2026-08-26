@@ -7,8 +7,8 @@
 Experiencia real en mantenimiento, mejora y despliegue de sistemas empresariales:
 interfaces más limpias, código útil y soluciones que ayudan a operar mejor un producto web.
 
-[![Portafolio](https://img.shields.io/badge/PORTAFOLIO-D4300F?style=flat-square&logoColor=white)](https://gabrielwsa.vercel.app)
-[![CV](https://img.shields.io/badge/CV_EN_PDF-14110D?style=flat-square&logoColor=white)](https://gabrielwsa.vercel.app/cv)
+[![Portafolio](https://img.shields.io/badge/PORTAFOLIO-D4300F?style=flat-square&logoColor=white)](https://gabriel-curriculum.vercel.app)
+[![CV](https://img.shields.io/badge/CV_EN_PDF-14110D?style=flat-square&logoColor=white)](https://gabriel-curriculum.vercel.app/cv)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-14110D?style=flat-square&logoColor=white)](https://linkedin.com/in/gabriel-william-039b97306)
 [![Instagram](https://img.shields.io/badge/Instagram-14110D?style=flat-square&logo=instagram&logoColor=white)](https://www.instagram.com/20y_gabriel/)
 [![Gmail](https://img.shields.io/badge/Email-14110D?style=flat-square&logo=gmail&logoColor=white)](mailto:gabrielsilvadearaujo45@gmail.com)
@@ -74,7 +74,7 @@ desarrollé sobre el sistema web con PHP y JavaScript y di soporte técnico en p
 ## Certificados
 
 `7 cursos` · `159.5 horas` — todos disponibles en PDF desde el
-[portafolio](https://gabrielwsa.vercel.app/#certificados).
+[portafolio](https://gabriel-curriculum.vercel.app/#certificados).
 
 PHP/Laravel · Node.js · JavaScript Moderno · PostgreSQL · Docker · TypeScript · Clean Code
 
@@ -82,7 +82,7 @@ PHP/Laravel · Node.js · JavaScript Moderno · PostgreSQL · Docker · TypeScri
 
 ## Sobre este repositorio
 
-El código de mi portafolio: **[gabrielwsa.vercel.app](https://gabrielwsa.vercel.app)**
+El código de mi portafolio: **[gabriel-curriculum.vercel.app](https://gabriel-curriculum.vercel.app)**
 
 - Astro + Tailwind, 100 % estático, sin JavaScript de framework en el cliente
 - Bilingüe (ES / EN) con rutas y anclas traducidas
