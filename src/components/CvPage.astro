@@ -50,6 +50,8 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
 
             <div class="cv-contact cv-label grid gap-1.5 text-[0.7rem] uppercase tracking-[0.12em] text-[#4a443b]">
               <a class="hover:text-[#d4300f]" href={`mailto:${profile.email}`}>{profile.email}</a>
+              <a class="hover:text-[#d4300f]" href={`tel:${profile.phoneHref}`}>{profile.phone}</a>
+              <span>{profile.location}</span>
               <a class="hover:text-[#d4300f]" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
                 LinkedIn
               </a>

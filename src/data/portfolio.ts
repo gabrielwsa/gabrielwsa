@@ -4,6 +4,10 @@ import type { Lang } from "@/i18n/ui"
 export const profile = {
   name: "Gabriel W. Silva de Araujo",
   email: "gabrielsilvadearaujo45@gmail.com",
+  phone: "+595 991 795 279",
+  /** Digits only, for the tel: link. */
+  phoneHref: "+595991795279",
+  location: "12 de Junio, Fernando de la Mora — Asunción",
   linkedin: "https://linkedin.com/in/gabriel-william-039b97306",
   github: "https://github.com/gabrielwsa",
   certificationCount: 6,
