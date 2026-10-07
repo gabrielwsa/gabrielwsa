@@ -41,7 +41,7 @@ export const ui = {
 
     "cv.title": "CV",
     "cv.back": "Volver al portafolio",
-    "cv.save": "Guardar como PDF",
+    "cv.save": "Descargar PDF",
     "cv.experience": "Experiencia",
     "cv.education": "Formación académica",
     "cv.degree": "Licenciatura en Análisis de Sistemas Informáticos",
@@ -91,7 +91,7 @@ export const ui = {
 
     "cv.title": "Resume",
     "cv.back": "Back to portfolio",
-    "cv.save": "Save as PDF",
+    "cv.save": "Download PDF",
     "cv.experience": "Experience",
     "cv.education": "Education",
     "cv.degree": "Bachelor’s Degree in Computer Systems Analysis",

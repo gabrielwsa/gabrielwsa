@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content"
-import { getContent, profile, skills } from "@/data/portfolio"
+import { cvProjects, getContent, profile, skills } from "@/data/portfolio"
 import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils"
 
 const lang = getLangFromUrl(Astro.url)
@@ -23,7 +23,7 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
     <main class="cv-page">
       <nav class="cv-actions" aria-label={t("cv.title")}>
         <a href={localizePath("/", lang)}>{t("cv.back")}</a>
-        <button id="print-btn" type="button">{t("cv.save")}</button>
+        <a class="cv-download" href={localizePath("/cv.pdf", lang)} download={`Gabriel-Silva-CV-${lang}.pdf`}>{t("cv.save")}</a>
       </nav>
 
       <article class="cv-paper">
@@ -74,14 +74,12 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
 
         <section>
           <h2>{t("cv.projects")}</h2>
-          <p>
-            <strong>TraderBot:</strong>{" "}
-            <a href="https://github.com/gabrielwsa/TraderBot" target="_blank" rel="noopener noreferrer">github.com/gabrielwsa/TraderBot</a>
-          </p>
-          <p>
-            <strong>ticketera:</strong>{" "}
-            <a href="https://github.com/gabrielwsa/ticketera" target="_blank" rel="noopener noreferrer">github.com/gabrielwsa/ticketera</a>
-          </p>
+          {cvProjects.map(project => (
+            <p>
+              <strong>{project.name}:</strong>{" "}
+              <a href={project.url} target="_blank" rel="noopener noreferrer">{project.url.replace("https://", "")}</a>
+            </p>
+          ))}
         </section>
 
         <section>
@@ -114,9 +112,9 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
       .cv-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 32px; }
       a { color: inherit; text-underline-offset: 3px; }
       a:hover { text-decoration: underline; }
-      a:focus-visible, button:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
-      button { border: 1px solid #999; background: #fff; color: #111; padding: 8px 12px; font: inherit; cursor: pointer; }
-      button:hover { background: #f2f2f2; }
+      a:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+      .cv-download { border: 1px solid #999; background: #fff; color: #111; padding: 8px 12px; text-decoration: none; }
+      .cv-download:hover { background: #f2f2f2; }
       .cv-paper { padding: 12px 24px 32px; }
       h1, h2, h3, p { margin: 0; }
       h1 { font-size: 26px; line-height: 1.2; font-weight: 700; }
@@ -158,13 +156,5 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
       }
     </style>
 
-    <script>
-      const printButton = document.getElementById("print-btn")
-      const triggerPrint = () => window.print()
-      printButton?.addEventListener("click", triggerPrint)
-      if (new URLSearchParams(window.location.search).get("print") === "1") {
-        window.addEventListener("load", () => window.setTimeout(triggerPrint, 250))
-      }
-    </script>
   </body>
 </html>

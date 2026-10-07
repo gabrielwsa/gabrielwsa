@@ -1,5 +1,10 @@
 import type { Lang } from "@/i18n/ui"
 
+export const cvProjects = [
+  { name: "TraderBot", url: "https://github.com/gabrielwsa/TraderBot" },
+  { name: "ticketera", url: "https://github.com/gabrielwsa/ticketera" },
+] as const
+
 /** Language-independent facts: links, contact details, counters. */
 export const profile = {
   name: "Gabriel W. Silva de Araujo",
