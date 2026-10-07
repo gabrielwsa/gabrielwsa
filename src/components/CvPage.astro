@@ -63,6 +63,7 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
         <section>
           <h2>{t("cv.education")}</h2>
           <h3>{t("cv.degree")}</h3>
+          <p>{t("cv.institution")}</p>
           <p>{t("cv.educationStatus")}</p>
         </section>
 
@@ -73,14 +74,14 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
 
         <section>
           <h2>{t("cv.projects")}</h2>
-          <article class="cv-entry">
-            <h3>TraderBot</h3>
+          <p>
+            <strong>TraderBot:</strong>{" "}
             <a href="https://github.com/gabrielwsa/TraderBot" target="_blank" rel="noopener noreferrer">github.com/gabrielwsa/TraderBot</a>
-          </article>
-          <article class="cv-entry">
-            <h3>ticketera</h3>
+          </p>
+          <p>
+            <strong>ticketera:</strong>{" "}
             <a href="https://github.com/gabrielwsa/ticketera" target="_blank" rel="noopener noreferrer">github.com/gabrielwsa/ticketera</a>
-          </article>
+          </p>
         </section>
 
         <section>
