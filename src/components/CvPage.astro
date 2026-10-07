@@ -61,6 +61,12 @@ const certifications = (await getCollection("certifications")).sort((a, b) =>
         </section>
 
         <section>
+          <h2>{t("cv.education")}</h2>
+          <h3>{t("cv.degree")}</h3>
+          <p>{t("cv.educationStatus")}</p>
+        </section>
+
+        <section>
           <h2>{t("cv.skills")}</h2>
           <p>{skills.join(", ")}</p>
         </section>
